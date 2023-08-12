@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "core",
     "authorization",
     'message',
+    'chats',
 
     # Dependencies
     "rest_framework",
