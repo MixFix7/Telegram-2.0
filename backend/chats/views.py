@@ -114,6 +114,29 @@ class StartNewChat(APIView):
             return Response({'message': e})
 
 
+class DeleteChat(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        try:
+
+            interlocutor_username = request.data.get('username')
+            chat_id = request.data.get('chat_id')
+
+            interlocutor = User.objects.get(username=interlocutor_username)
+
+            chat = Chat.objects\
+                .get(Q(interlocutor1=interlocutor) | Q(interlocutor2=interlocutor))\
+                .delete()
+
+            return Response({'message': 'chat was deleted successfully'})
+
+        except Exception as e:
+            return Response({'message': e})
+
+
+
 
 
 
