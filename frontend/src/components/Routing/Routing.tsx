@@ -16,16 +16,6 @@ const router = createBrowserRouter([
     {
         path: urls.Home,
         element: <Home/>,
-        loader: async ({request}) => {
-            try {
-                const response = await axios.get(`http://localhost:8000/api/f/${1}/`);
-                return response.data
-            
-              } catch (error) {
-                console.error(error);
-                return null
-              }
-            }
       }, 
           // AUTHORIZATION
       {

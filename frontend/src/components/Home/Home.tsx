@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useLoaderData } from 'react-router-dom'
+import { useActions } from '../../hooks/useActions'
+import { useSelector } from 'react-redux'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 
-export const Home: React.FC = () => {
-    const name = useLoaderData() as {name: string | null}
-    console.log(name)
+export const Home: FC = () => {
+  const {isLoading, error, chatsData} = useTypedSelector(state => state.chats) 
 
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
-        <h1 className='text-6xl'>Welcome, {name?.name}</h1>
-        <h2 className='text-4xl mt-3'>Let's start creating a new Website?</h2>
+      
+      
+
     </div>
   )
 }

@@ -14,7 +14,7 @@ class Message(models.Model):
     file = models.FileField(null=True, blank=True)
 
     def __str__(self):
-        return f"Sender: {self.sender} to: {self.chat} {self.type}: {self.title} date: {self.dispatch_date}"
+        return f"Sender: {self.sender} to: {self.chat} {self.type}:  date: {self.dispatch_date}"
 
 
 
