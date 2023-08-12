@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Apps
     "core",
     "authorization",
+    'message',
 
     # Dependencies
     "rest_framework",
