@@ -9,26 +9,12 @@ class Message(models.Model):
     dispatch_date = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=10, default='Unknown')
 
-
-class TextMessage(Message):
-    title = models.TextField(default='', null=True, blank=True)
-
-    def __str__(self):
-        return f"Sender: {self.sender} to: {self.chat} text: {self.title} date: {self.dispatch_date}"
-
-
-class ImageMessage(Message):
+    text = models.TextField(default='', null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-
-    def __str__(self):
-        return f"Sender: {self.sender} to: {self.chat} image: {self.image.name} date: {self.dispatch_date}"
-
-
-class FileMessage(Message):
     file = models.FileField(null=True, blank=True)
 
     def __str__(self):
-        return f"Sender: {self.sender} to: {self.chat} file: {self.file.name} date: {self.dispatch_date}"
+        return f"Sender: {self.sender} to: {self.chat} {self.type}: {self.title} date: {self.dispatch_date}"
 
 
 

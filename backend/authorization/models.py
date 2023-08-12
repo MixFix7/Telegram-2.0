@@ -6,6 +6,7 @@ from PIL import Image
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='user_avatars/', blank=True, null=True)
+    phone_number = models.CharField(max_length=20, default="+000000000")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
