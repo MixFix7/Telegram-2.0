@@ -17,6 +17,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['avatar'] = user.profile.avatar.url
         token['isAdmin'] = user.is_superuser
+        token['phone'] = user.profile.phone_number
 
         return token
 

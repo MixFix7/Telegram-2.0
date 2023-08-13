@@ -15,9 +15,10 @@ class SignUpJWT(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
         avatar = request.FILES.get('avatar')
+        phone_number = request.data.get('phone_number')
 
         user = User.objects.create_user(username=username, email=email, password=password)
-        profile = Profile.objects.create(user=user, avatar=avatar)
+        profile = Profile.objects.create(user=user, avatar=avatar, phone_number=phone_number)
         profile.save()
 
         refresh_token = RefreshToken.for_user(user)
