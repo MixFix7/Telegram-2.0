@@ -1,17 +1,31 @@
-import React, { FC } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import React, { FC, useContext, useEffect } from 'react'
+import { Link, useLoaderData, useNavigate } from 'react-router-dom'
 import { useActions } from '../../hooks/useActions'
 import { useSelector } from 'react-redux'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
+import { urls } from '../Routing/Routing'
+import { AuthContext } from '../Authorization/AuthContext'
+import { AuthContextType } from '../Authorization/types'
+import ChatsComponent from '../Chats/ChatsComponent'
 
 export const Home: FC = () => {
-  const {isLoading, error, chatsData} = useTypedSelector(state => state.chats) 
+  const {logoutUser, user} = useContext(AuthContext) as AuthContextType
+  const navigate = useNavigate()
+
+  const {getChats} = useActions()
+
+  useEffect(() => {
+    if(user)
+      getChats(user.username)
+    else
+      navigate(urls.SignUp)
+  })
+
+  document.body.style.backgroundColor = '#0f172a'
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      
-      
-
+    <div className='flex items-center h-screen'>
+      <ChatsComponent/>
     </div>
   )
 }

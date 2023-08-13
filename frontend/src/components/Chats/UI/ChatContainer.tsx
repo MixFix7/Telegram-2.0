@@ -1,7 +1,12 @@
 import React, {FC} from 'react'
-import { TypeChatContainer } from '../../../types/typeChatsComponents'
+import { IChat } from '../../../types/typeChat'
 
-const ChatContainer: FC<TypeChatContainer> = ({chat}) => {
+
+interface IChatProps {
+  chat: IChat
+}
+
+const ChatContainer: FC<IChatProps> = ({chat}) => {
   return (
     <div>
       

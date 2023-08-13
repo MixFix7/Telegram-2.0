@@ -4,10 +4,14 @@ import axios from "axios";
 import SignUpPage from '../Authorization/SignUpPage';
 import LoginPage from '../Authorization/LogInPage';
 
+export const endPoints = {
+  Auth: '/auth/'
+}
+
 export const urls = {
   Home: '/',
-  SignUp: '/sign-up',
-  LogIn: '/log-in'
+  SignUp: endPoints.Auth + 'sign-up/',
+  LogIn: endPoints.Auth + 'log-in/'
 }
 
 export const SERVER_URL: string = 'http://localhost:8000'

@@ -2,15 +2,17 @@ import { createContext, useState, useEffect, FC, ReactNode, FormEvent } from "re
 import {decodeToken} from 'react-jwt'
 import { AuthContextType, TypeFormData } from "./types";
 import * as Interfaces from './iterfaces'
+import { E164Number } from 'libphonenumber-js/types'
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ children }) => {
-    const authTokensParsed: Interfaces.IAuthTokens = JSON.parse(localStorage.getItem('authTokens') || '{"refresh": null, "access": null"}');
-    let [authTokens, setAuthTokens] = useState<Interfaces.IAuthTokens | null>(() => localStorage.getItem('authTokens') ? authTokensParsed: null)
-    let [user, setUser] = useState<string | null>(() => localStorage.getItem('authTokens') ? decodeToken(authTokensParsed.access) : null)
-    let [loading, setLoading] = useState(true)
+  const authTokensParsed: Interfaces.IAuthTokens | null = JSON.parse(localStorage.getItem('authTokens') || '{"refresh": null, "access": null}');
+  let [authTokens, setAuthTokens] = useState<Interfaces.IAuthTokens | null>(() => localStorage.getItem('authTokens') ? authTokensParsed: null);
+  let [user, setUser] = useState<Interfaces.IUser | null>(() => localStorage.getItem('authTokens') ? decodeToken(authTokensParsed!.access) : null);
+  let [loading, setLoading] = useState(true);
     
+
 
     const loginUser = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -41,7 +43,7 @@ export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ childre
     };
     
 
-    const signupUser = async(e: FormEvent<HTMLFormElement>) => {
+    const signupUser = async(e: FormEvent<HTMLFormElement>, phoneNumber: E164Number) => {
       e.preventDefault()
       
       const formData = new FormData();
@@ -50,6 +52,7 @@ export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ childre
       formData.append('username', e.currentTarget.username.value);
       formData.append('email', e.currentTarget.email.value);
       formData.append('password', e.currentTarget.password.value);
+      formData.append('phone_number', phoneNumber)
       
       formDataLogin.append('password', e.currentTarget.password.value);
       formDataLogin.append('username', e.currentTarget.username.value);
@@ -103,7 +106,7 @@ export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ childre
           }
         }
   
-        const contextData = {
+      const contextData = {
       user: user,
       loginUser: loginUser,
       logoutUser: logoutUser,
@@ -123,7 +126,7 @@ export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ childre
       }, [authTokens, loading])
       
       return (
-        <AuthContext.Provider value={contextData}>
+      <AuthContext.Provider value={contextData}>
         {children}
       </AuthContext.Provider>
     );

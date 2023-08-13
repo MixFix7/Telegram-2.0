@@ -1,4 +1,6 @@
 import { FormEvent } from 'react';
+import { IUser } from './iterfaces';
+import { E164Number } from 'libphonenumber-js/types'
 
 
 export type TypeFormData = {
@@ -7,9 +9,9 @@ export type TypeFormData = {
 }
 
 export type AuthContextType = {
-    user: string | null
+    user: IUser | null
     loginUser: (e: FormEvent<HTMLFormElement>) => Promise<void>
     logoutUser: () => void
-    signupUser: (e: FormEvent<HTMLFormElement>) => Promise<void>
+    signupUser: (e: FormEvent<HTMLFormElement>, phoneNumber: E164Number) => Promise<void>
     updateTokens: () => Promise<void> 
 }

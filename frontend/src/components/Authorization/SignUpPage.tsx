@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import style from './../../static/AuthPage.module.css'
 import { Link } from 'react-router-dom'
 import { urls } from '../Routing/Routing'
@@ -6,13 +6,16 @@ import { HaveAccount } from './UI/HaveAccount';
 import InputAuth from './UI/InputAuth';
 import { AuthContext } from './AuthContext';
 import { AuthContextType } from './types';
+import PhoneNumberInput from './UI/PhoneNumberInput';
+import { E164Number } from 'libphonenumber-js/types'
 
 const SignUpPage: React.FC = () => {
   const {signupUser} = useContext(AuthContext) as AuthContextType
+  const [phone, setPhone] = useState<E164Number | undefined>(undefined)
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    signupUser(e)
+    signupUser(e, phone!)
   }
 
   return (
@@ -22,8 +25,9 @@ const SignUpPage: React.FC = () => {
 
             <InputAuth type='text' name='Username' nameInput='username'/>
             <InputAuth type='email' name='Email' nameInput='email'/>
+            <PhoneNumberInput phone={phone} setPhone={(phone: E164Number) => setPhone(phone)}/>
             <InputAuth type='password' name='Password' nameInput='password'/>
-            <InputAuth type='password' name='Confirm password' nameInput='password'/>
+            <InputAuth type='password' name='Confirm password' nameInput='password2'/>
             <div>
               <div className={style.inputBox}>
                 <p className=''>Avatar</p>
