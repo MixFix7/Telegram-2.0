@@ -19,12 +19,12 @@ export const Home: FC = () => {
       getChats(user.username)
     else
       navigate(urls.SignUp)
-  })
+  }, [])
 
   document.body.style.backgroundColor = '#0f172a'
 
   return (
-    <div className='flex items-center h-screen'>
+    <div className='flex items-center h-screen text-white'>
       <ChatsComponent/>
     </div>
   )

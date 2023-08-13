@@ -13,7 +13,7 @@ export interface IMessage {
 
 export interface IChat {
     id: number
-    intercolutor1: IUser 
-    intercolutor2: IUser
+    interlocutor1 : IUser 
+    interlocutor2: IUser
     last_message: IMessage
 }
