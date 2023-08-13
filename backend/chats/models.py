@@ -12,4 +12,3 @@ class Chat(models.Model):
 
 
 
-    
