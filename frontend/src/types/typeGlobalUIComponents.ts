@@ -1,3 +1,4 @@
+import { IChatAndUsername } from "./typeGlobalInterfaces"
 import { IChat, IMessage } from "./typeInstances"
 
 export interface IImageUIProps {
@@ -10,16 +11,14 @@ export interface IMessageComponent {
     message: IMessage
 }
 
-export interface IInterlocutorUsernameProps {
+export interface IInterlocutorUsernameProps 
+ extends IChatAndUsername {
     className?: string
-    chat: IChat
-    username: string
 }
 
-export interface IInterlocutorAvatarProps {
+export interface IInterlocutorAvatarProps
+ extends IChatAndUsername {
     className?: string
-    chat: IChat
-    username: string
 }
 
 export interface IDispatchMessageDate {
