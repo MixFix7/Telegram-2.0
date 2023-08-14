@@ -8,7 +8,7 @@ const TopChatLabel = () => {
     const {user} = useContext(AuthContext) as AuthContextType
 
   return (
-    <div className='w-full p-6' style={{backgroundColor: '#1E2B3E'}}>
+    <div className='w-full p-4' style={{backgroundColor: '#1E2B3E'}}>
         <span className='text-2xl'>
             {viewChat?.interlocutor1.username === user!.username 
                 ? viewChat.interlocutor2.username

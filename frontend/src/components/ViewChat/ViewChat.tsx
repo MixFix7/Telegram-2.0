@@ -5,6 +5,7 @@ import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
 import {ChatMessages} from './ChatMessages'
 import { TopChatLabel } from './UI/TopChatLabel'
+import { SendMessage } from './SendMessage/SendMessage'
 
 const ViewChat: FC = () => {
     const {viewChat} = useTypedSelector(state => state)
@@ -18,9 +19,8 @@ const ViewChat: FC = () => {
             '
         >
             <TopChatLabel/>
-            <ChatMessages/>
-
-        
+            <ChatMessages/>  
+            <SendMessage/>  
         </div>
       )
     else return <></>
