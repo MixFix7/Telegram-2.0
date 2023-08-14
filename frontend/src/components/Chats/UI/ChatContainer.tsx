@@ -18,14 +18,16 @@ interface IChatProps {
 const ChatContainer: FC<IChatProps> = ({chat}) => {
   const {user} = useContext(AuthContext) as AuthContextType
   const {selectChat} = useActions()
+  const {viewChat} = useTypedSelector(state => state)
   const username: string = user!.username
 
   return (
-      <div className='
+      <div className={`
         w-full h-20 bg-transparent flex 
       hover:bg-gray-700 cursor-pointer
         items-center justify-center
-      '
+        ${viewChat === chat && "bg-sky-800 hover:bg-sky-800"}
+      `}
       onClick={() => selectChat(chat)}
       >
         <div className='flex items-center justify-center w-1/4'>
