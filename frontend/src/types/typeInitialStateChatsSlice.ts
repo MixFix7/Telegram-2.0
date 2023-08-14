@@ -1,4 +1,4 @@
-import { IChat } from "./typeChat"
+import { IChat } from "./typeInstances"
 
 export type TypeInitialChatsSlice = {
     isLoading: boolean

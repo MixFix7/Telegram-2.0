@@ -8,7 +8,7 @@ const ChatsComponent: FC = () => {
 
   return (
     <div 
-      className='flex flex-col h-screen bg-gray-800 w-72'
+      className='flex flex-col h-screen bg-gray-800 w-80 border-r-2 border-black'
     >
 
       <div className='flex flex-col'>

@@ -1,17 +1,21 @@
 import React, {FC, useContext} from 'react'
-import { IChat } from '../../../types/typeChat'
+import { IChat } from '../../../types/typeInstances'
 import Image from '../../GlobalUI/Image'
 import Font from 'react-font'
 import { AuthContext } from '../../Authorization/AuthContext'
 import { AuthContextType } from '../../Authorization/types'
+import { useActions } from '../../../hooks/useActions'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
 
+interface IChatProps {
+  chat: IChat
+}
 
-  interface IChatProps {
-    chat: IChat
-  }
-
-  const ChatContainer: FC<IChatProps> = ({chat}) => {
+const ChatContainer: FC<IChatProps> = ({chat}) => {
   const {user} = useContext(AuthContext) as AuthContextType
+  const {selectChat} = useActions()
+  const {viewChat} = useTypedSelector(state => state)
+  console.log(viewChat)
 
   const last_message = chat.last_message.text!
   
@@ -40,35 +44,51 @@ import { AuthContextType } from '../../Authorization/types'
   
   const dispatch_date = getNormalDate(chat.last_message.dispatch_date);
 
+  const isToday = (date: string) => {
+    const today = new Date()
+    const dateTime: Date = new Date(date);
+    return (
+      dateTime.getUTCFullYear() === today.getUTCFullYear() &&
+      dateTime.getUTCMonth() === today.getUTCMonth() &&
+      dateTime.getUTCDate() === today.getUTCDate()
+    );
+  };
+
   return (
-    <div className='
-        w-full h-20 bg-transparent flex 
-        hover:bg-gray-700 cursor-pointer
-        items-center justify-center
-    '
-    >
-      <div className='flex items-center justify-center w-1/4'>
-          <Image
-            className='rounded-full w-16 h-16'
-            img={chat.interlocutor2.avatar}
-            alt={chat.interlocutor2.username}
-          />
-      </div>
-      <div className='flex flex-col items-start justify-start w-3/4'>
-            <div className='w-full'>
-              <Font family='Rubik'>
-                <div className='flex items-center w-full'>
-                  <span
-                    className='font-bold text-xl'
-                  >
-                    {chat.interlocutor2.username}
-                  </span>
-                  <span className='relative left-14  text-sm text-gray-500'>
-                      {dispatch_date.substring(0, 10)}
-                  </span>
-                </div>
-              </Font>
-            </div>
+      <div className='
+      w-full h-20 bg-transparent flex 
+      hover:bg-gray-700 cursor-pointer
+      items-center justify-center
+      '
+      onClick={() => selectChat(chat)}
+      >
+
+        <div className='flex items-center justify-center w-1/4'>
+            <Image
+              className='rounded-full w-16 h-16'
+              img={chat.interlocutor2.avatar}
+              alt={chat.interlocutor2.username}
+            />
+        </div>
+        <div className='flex flex-col items-start justify-start w-3/4'>
+              <div className='w-full'>
+                <Font family='Rubik'>
+                  <div className='flex items-center w-full justify-between'>
+                    <span
+                      className='font-bold text-xl'
+                    >
+                      {chat.interlocutor2.username}
+                    </span>
+                    <span className='text-sm mr-1 text-gray-500'> 
+                    {isToday(dispatch_date) ? (
+                        dispatch_date.substring(16, 10)
+                    ) : (
+                      dispatch_date.substring(0, 10)
+                    )}
+                    </span>
+                  </div>
+                </Font>
+          </div>
           <div className='text-gray-400 flex items-center w-full'>
             <Font family='Rubik'>
               <div className='flex items-center'>

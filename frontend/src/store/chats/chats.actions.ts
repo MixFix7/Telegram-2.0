@@ -3,7 +3,7 @@ import { SERVER_URL } from "../../components/Routing/Routing";
 
 const fetchChats = async (username: string) => {
     const token: string = JSON.parse(localStorage.getItem('authTokens')!).access; 
-    const response = await fetch(SERVER_URL + '/api/chats/all-user-chats/', {
+    const response = await fetch(SERVER_URL + '/api/chats/all-chats-and-messages/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

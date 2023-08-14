@@ -26,6 +26,7 @@ export const chatsSlice = createSlice({
         .addCase(getChats.rejected, 
         (state, action) => {
             state.error = action.error.message
+            state.chatsData = []
         })
     }
 

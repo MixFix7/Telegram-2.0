@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { chatsSlice } from "./chats/chats.slice";
-import { reducer as viewChatReducer } from "./viewChat/viewChat.slice";
+import { reducer as viewChatReducer} from "./viewChat/viewChat.slice";
 
 const reducers = combineReducers({
     chats: chatsSlice.reducer,
