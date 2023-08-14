@@ -1,37 +1,29 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { IChat } from '../../types/typeInstances'
-import Message from './UI/Message'
-import YourMessage from './UI/YourMessage'
-import ToYouMessage from './UI/ToYouMessage'
+import { AuthContext } from '../Authorization/AuthContext'
+import { AuthContextType } from '../Authorization/types'
+import {ChatMessages} from './ChatMessages'
+import { TopChatLabel } from './UI/TopChatLabel'
 
 const ViewChat: FC = () => {
     const {viewChat} = useTypedSelector(state => state)
+    const {user} = useContext(AuthContext) as AuthContextType
 
-  if(viewChat)
-      return (
-          <div 
+  if(viewChat) return (
+        <div 
             className='
                 h-full bg-transparent flex flex-col w-full
+                overflow-y-auto
             '
         >
-            <div className='w-full p-6' style={{backgroundColor: '#1E2B3E'}}>
-                <span className='text-2xl'>
-                    {viewChat.interlocutor2.username}
-                </span>
-            </div>
-            <div className='flex flex-col'>
-                {viewChat.messages.map((message) => (
-                    <>
-                        <ToYouMessage message={message}/>
-                        <YourMessage message={message}/>
-                    </>
-                ))}
-            </div>
-          </div>
+            <TopChatLabel/>
+            <ChatMessages/>
+
+        
+        </div>
       )
-    else
-        return <></>
+    else return <></>
   }
 
 export default ViewChat
