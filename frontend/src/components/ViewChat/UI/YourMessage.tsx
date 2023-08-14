@@ -1,10 +1,9 @@
 import React, {FC} from 'react'
 import { IMessageComponent } from '../../../types/typeGlobalUIComponents'
 import Image from '../../GlobalUI/Image'
-import { getNormalDate, isToday } from '../../Chats/UI/ChatContainer'
+import DispatchMessageDate from '../../GlobalUI/DispatchMessageDate'
 
 const YourMessage: FC<IMessageComponent> = ({message}) => {
-  const dispatch_date: string = getNormalDate(message.dispatch_date)
 
   return (
     <div className='w-full flex justify-end'>
@@ -23,11 +22,10 @@ const YourMessage: FC<IMessageComponent> = ({message}) => {
           {message.text}
         </pre>
         <div className='w-full flex justify-end'>
-          <span className='text-sm text-sky-500'>
-            {isToday(dispatch_date) 
-              ? dispatch_date.substring(16, 10) 
-              : dispatch_date.substring(0, 10)}  
-          </span>
+        <DispatchMessageDate 
+            className='text-sm text-sky-500'
+            dispatchDateISO={message.dispatch_date}
+          />
         </div>
       </div>
       <div className='h-full flex flex-col justify-end mx-2'>
