@@ -15,7 +15,6 @@ const ViewChat: FC = () => {
         <div 
             className='
                 h-full bg-transparent flex flex-col w-full
-                overflow-y-auto
             '
         >
             <TopChatLabel/>

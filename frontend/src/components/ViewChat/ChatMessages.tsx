@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useRef, useEffect} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
@@ -9,9 +9,16 @@ import ToYouMessage from './UI/ToYouMessage'
 const ChatMessages = () => {
     const {viewChat} = useTypedSelector(state => state)
     const {user} = useContext(AuthContext) as AuthContextType
+    const messagesRef = useRef<HTMLDivElement | null>(null)
+
+    useEffect(() => {
+        if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight
+        }
+    }, [])
 
   return (
-    <div className='flex flex-col'>
+    <div ref={messagesRef} className='flex flex-col overflow-y-auto'>
         {viewChat!.messages.map((message) => (
             message.sender.username === user!.username ? (
                 <YourMessage message={message}/>
