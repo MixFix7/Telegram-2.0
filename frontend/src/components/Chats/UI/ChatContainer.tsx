@@ -43,8 +43,8 @@ const ChatContainer: FC<IChatProps> = ({chat}) => {
               <div className='flex items-center w-full justify-between'>
                 <InterlocutorUsername 
                   className='font-bold text-xl'
-                  chat={chat}
-                  username={username}
+                  interlocutor1Name={chat.interlocutor1.username}
+                  interlocutor2Name={chat.interlocutor2.username}
                 />            
               </div>
             </Font>

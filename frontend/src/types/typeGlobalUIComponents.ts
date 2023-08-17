@@ -11,9 +11,10 @@ export interface IMessageComponent {
     message: IMessage
 }
 
-export interface IInterlocutorUsernameProps 
- extends IChatAndUsername {
+export interface IInterlocutorUsernameProps {
     className?: string
+    interlocutor1Name: string,
+    interlocutor2Name: string,
 }
 
 export interface IInterlocutorAvatarProps

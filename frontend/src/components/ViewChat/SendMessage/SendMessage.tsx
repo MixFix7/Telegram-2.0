@@ -13,12 +13,13 @@ const SendMessage = () => {
     const { user } = useContext(AuthContext) as AuthContextType;
     const [chatData, setChatData] = useState<any>(null);
     const {updateChat, selectChat} = useActions()
-    const [socket, setSocket] = useState<WebSocket | null>(null);  // Стан для WebSocket
+    const [socket, setSocket] = useState<WebSocket | null>(null);
 
     useEffect(() => {
         console.log(chatData)
     }, [chatData])
 
+    
     useEffect(() => {
         const roomGroup = `user_${user!.username}`;
         const newSocket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`);
