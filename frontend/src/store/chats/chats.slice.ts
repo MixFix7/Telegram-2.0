@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getChats } from "./chats.actions";
 import { TypeInitialChatsSlice } from "../../types/typeInitialStateChatsSlice";
+import { IChat } from "../../types/typeInstances";
 
 const initialState: TypeInitialChatsSlice = {
     isLoading: false,
@@ -11,7 +12,15 @@ const initialState: TypeInitialChatsSlice = {
 export const chatsSlice = createSlice({
     name: 'chats',
     initialState,
-    reducers: {},
+    reducers: {
+        updateChat: (state, {payload: newChat}) => {
+            const chatId: number = state.chatsData.findIndex(chat => chat.id === newChat.id)
+            console.log(newChat)
+            if(chatId !== 1) {
+                state.chatsData[chatId] = newChat
+            }
+        }   
+},
     extraReducers: builder => {
         builder
         .addCase(getChats.pending, 
@@ -31,3 +40,5 @@ export const chatsSlice = createSlice({
     }
 
 })
+
+export const {actions, reducer} = chatsSlice

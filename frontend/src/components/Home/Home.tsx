@@ -1,13 +1,14 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { Link, useLoaderData, useNavigate } from 'react-router-dom'
 import { useActions } from '../../hooks/useActions'
 import { useSelector } from 'react-redux'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { SERVER_URL, urls } from '../Routing/Routing'
+import { SERVER_URL, WEBSOCKET_SERVER_URL, urls } from '../Routing/Routing'
 import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
 import ChatsComponent from '../Chats/ChatsComponent'
 import ViewChat from '../ViewChat/ViewChat'
+import { IChat } from '../../types/typeInstances'
 
 export const Home: FC = () => {
   const {logoutUser, user, updateTokens} = useContext(AuthContext) as AuthContextType
@@ -15,22 +16,11 @@ export const Home: FC = () => {
 
   const {getChats} = useActions()
 
-  const websocketConnect = () => {
-    let url = `ws://localhost:8000/ws/socket-server/`
-
-    const chatSocket = new WebSocket(url)
-
-    chatSocket.onmessage = function(e){
-      let data = JSON.parse(e.data)
-      console.log('Data', data)
-    }
-  }
 
   useEffect(() => {
     if(user) {
       updateTokens()
       getChats(user.username)
-      websocketConnect()
     } else
       navigate(urls.SignUp)
   }, [])

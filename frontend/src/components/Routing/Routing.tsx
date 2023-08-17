@@ -15,6 +15,7 @@ export const urls = {
 }
 
 export const SERVER_URL: string = 'http://localhost:8000'
+export const WEBSOCKET_SERVER_URL: string = 'ws://localhost:8000/ws/'
 
 const router = createBrowserRouter([
     {

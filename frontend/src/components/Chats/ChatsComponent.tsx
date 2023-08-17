@@ -4,7 +4,6 @@ import ChatContainer from './UI/ChatContainer'
 
 const ChatsComponent: FC = () => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
-  console.log(chatsData)
 
   return (
     <div 

@@ -47,7 +47,7 @@ class SendMessage(APIView):
             return Response({'message': 'message was sent successfully '})
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
 
 
 class ChangeMessage(APIView):
