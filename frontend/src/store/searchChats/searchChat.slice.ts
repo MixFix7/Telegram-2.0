@@ -45,7 +45,7 @@ export const searchChatSlice = createSlice({
             const {query} = state.searchQuery
 
             const foundedChats = state.chats.filter(chat => {
-                let messagesMatch = chat.messages.some(word => word.text?.toLowerCase() === query.toLowerCase())
+                let messagesMatch = chat.messages.some(word => word.text?.toLowerCase().includes(query.toLowerCase()))
                 let namesMatch1 = chat.interlocutor1.username.toLowerCase().includes(query.toLowerCase())
                 let namesMatch2 = chat.interlocutor2.username.toLowerCase().includes(query.toLowerCase())
                 let namesMatch = namesMatch1 || namesMatch2

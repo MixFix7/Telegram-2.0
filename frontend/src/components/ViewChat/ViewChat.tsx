@@ -59,7 +59,7 @@ const ViewChat: FC = () => {
   if(viewChat) return (
         <div 
             className='
-                h-full bg-transparent flex flex-col w-full
+                h-full bg-transparent flex flex-col w-5/6
             '
         >
             <TopChatLabel/>

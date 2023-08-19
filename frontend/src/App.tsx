@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './static/scrollBarStyles.css'
 import { RouterProvider } from 'react-router-dom';
 import router from './components/Routing/Routing';
 import { AuthProvider } from './components/Authorization/AuthContext';
