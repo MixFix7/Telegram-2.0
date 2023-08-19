@@ -1,6 +1,7 @@
 import React, {FC} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import ChatContainer from './UI/ChatContainer'
+import ChatsTopPanel from './TopPanel/ChatsTopPanel'
 
 const ChatsComponent: FC = () => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
@@ -9,6 +10,7 @@ const ChatsComponent: FC = () => {
     <div 
       className='flex flex-col h-screen bg-gray-800 w-80 border-r-2 border-black'
     >
+      <ChatsTopPanel/>
 
       <div className='flex flex-col'>
         {isLoading ? (

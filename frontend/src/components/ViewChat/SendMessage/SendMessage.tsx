@@ -49,13 +49,13 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
 
     return (
         <form className='w-full p-4 flex items-center'
-              style={{ backgroundColor: '#1E2B3E' }}
+              style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
               onSubmit={submitFormSendMessage}
         >
             <InputMessage/>
             <button type='submit'>
                 <IoMdSend
-                    className='text-sky-500hover:text-sky-600'
+                    className='text-sky-500 hover:text-sky-600'
                     size={'30px'}
                 />
             </button>
