@@ -30,12 +30,12 @@ const ChatMessages = () => {
         if(messagesRef.current) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight
         }
-    }, [])
+    })
 
   return (
     <div 
         ref={messagesRef} 
-        className={`flex flex-col overflow-y-auto`}
+        className={`flex flex-col overflow-y-auto h-full`}
     >
         {viewChat!.messages.map((message) => (
             message.sender.username === user!.username ? (
