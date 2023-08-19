@@ -47,13 +47,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
                     data['sender_name'], data['recipient_name'], data['chat_id']
                 )
 
-            # all_chats_with_last_message = \
-            #     await self.get_all_chats_with_last_message(
-            #         self.scope['url_route']['kwargs**']['username']  # username
-            #     )
-            #
-            # await self.send(all_chats_with_last_message)
-
         except Exception as e:
             await self.send_error(str(e))
 
@@ -63,23 +56,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.send(text_data=json.dumps({'command': 'subscribe', 'message': 'Subscribed to room'}))
-
-    async def get_all_chats_with_last_message(self, username):
-        all_chats_with_last_message = []
-
-        all_chats = Chat.objects.filter(
-            Q(interlocutor1__username=username) | Q(interlocutor2__username=username)
-        )
-        for chat in all_chats:
-            messages = Message.objects.filter(chat=chat)
-            chat_json = ChatSerializer(chat).data
-            messages_json = MessageSerializer(messages, many=True).data
-            chat_json['message'] = messages_json
-            chat_json['last_messages'] = messages_json[-1]
-
-            all_chats_with_last_message.append(chat_json)
-
-        return all_chats_with_last_message
 
     @database_sync_to_async
     def get_chat_messages(self, chat_id):
@@ -96,13 +72,11 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
     async def add_message(self, text_data):
         try:
             data = json.loads(text_data)
-            sender_username = data.get('sender_name')
-            chat_id = data.get('chat_id')
             message_type = data.get('message_type')
             message_content = data.get('message_content')
 
-            sender_account = User.objects.get(username=sender_username)
-            chat = Chat.objects.get(id=chat_id)
+            sender_account = User.objects.get(username=data['sender_name'])
+            chat = Chat.objects.get(id=data['chat_id'])
 
             new_message = Message(
                 sender=sender_account,
@@ -123,7 +97,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             return self.send_error({'message': str(e)})
 
     async def send_chat_data(self, data):
-        # await self.send(text_data=json.dumps({"data": data}))
 
         await self.channel_layer.group_send(
             self.room_group_name,

@@ -1,4 +1,4 @@
-import React, {FC, useContext} from 'react'
+import React, {FC, useContext, useRef, useEffect} from 'react'
 import { IChat } from '../../../types/typeInstances'
 import Image from '../../GlobalUI/Image'
 import Font from 'react-font'
@@ -16,17 +16,27 @@ interface IChatProps {
 
 
 const ChatContainer: FC<IChatProps> = ({chat}) => {
+  const chatRef = useRef<HTMLDivElement | null>(null)
+
   const {user} = useContext(AuthContext) as AuthContextType
+
   const {selectChat} = useActions()
   const {viewChat} = useTypedSelector(state => state)
-  const username: string = user!.username
+  
+  const username: string = user!.username 
+
+  useEffect(() => {
+    if(chat?.id === viewChat?.id)
+      chatRef?.current?.classList.add('bg-sky-700')
+  }, [viewChat])
 
   return (
-      <div className={`
+      <div
+      ref={chatRef}
+      className={`
         w-full h-20 bg-transparent flex 
       hover:bg-gray-700 cursor-pointer
         items-center justify-center
-        ${viewChat === chat && "bg-sky-800 hover:bg-sky-800"}
       `}
       onClick={() => selectChat(chat)}
       >

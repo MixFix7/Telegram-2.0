@@ -14,30 +14,13 @@ export const Home: FC = () => {
   const {logoutUser, user, updateTokens} = useContext(AuthContext) as AuthContextType
   const navigate = useNavigate()
   const {getChats, setUrl, setRoom, setMessage} = useActions()
-  const {url, room} = useTypedSelector(state => state.websocket)
-
-  const connectToWebsocket = async () => {
-    setRoom(`user_${user!.username}`)
-    setUrl(`get-all-user-chats-messages/${user!.username}/`)
-
-    const socket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`)
-
-      socket.onopen = () => {
-        socket.send(JSON.stringify({ command: "subscribe", room: room}))
-      }
-  
-      socket.onmessage = (e) => {
-        const data = JSON.parse(e.data)
-        setMessage(data)
-      }
-    }
+  const {room} = useTypedSelector(state => state.websocket)
 
 
   useEffect(() => {
     if(user) {
       updateTokens()
       getChats(user.username)
-      connectToWebsocket()
     } else
       navigate(urls.SignUp)
   }, [])
