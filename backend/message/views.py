@@ -20,7 +20,7 @@ class SendMessage(APIView):
 
     def post(self, request):
         try:
-            sender_username = request.data.get('sender_username')
+            sender_username = request.data.get('sender_name')
             chat_id = request.data.get('chat_id')
             message_type = request.data.get('message_type')
             message_content = request.data.get('message_content') if message_type == 'Text' else request.FILES.get(

@@ -1,46 +1,32 @@
 import React, { FormEvent, useContext, useState, useEffect } from 'react';  // Додайте useEffect
 import { IoMdSend } from 'react-icons/io';
 import { SERVER_URL, WEBSOCKET_SERVER_URL } from '../../Routing/Routing';
-import { AuthContext } from '../../Authorization/AuthContext';
-import { AuthContextType } from '../../Authorization/types';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { IChat } from '../../../types/typeInstances';
 import { InputMessage } from './UI/InputMessage';
 import { useActions } from '../../../hooks/useActions';
+import { useInterlocutorName } from '../../../hooks/useInterlocutorName';
 
 const SendMessage = () => {
     const { viewChat } = useTypedSelector(state => state);
-    const { user } = useContext(AuthContext) as AuthContextType;
     const [chatData, setChatData] = useState<any>(null);
-    const {updateChat, selectChat} = useActions()
-    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
+    const {url} = useTypedSelector(state => state.websocket)
+    const [socket, setSocket] = useState<WebSocket | null>(null)
+
+    const connectToWebsocket = () => {
+        const socket = new WebSocket(url!)
+        setSocket(socket)
+    }
 
     useEffect(() => {
         console.log(chatData)
     }, [chatData])
 
-    
     useEffect(() => {
-        const roomGroup = `user_${user!.username}`;
-        const newSocket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`);
-        
-        newSocket.onopen = () => {
-            newSocket.send(JSON.stringify({ command: "subscribe", room: roomGroup }));
-        };
-    
-        newSocket.onmessage = (e) => {
-            const data = JSON.parse(e.data);
-            setChatData(data);
-            
-            if(data.command === "update_chat") {
-                console.log('sdfgsdfg')
-                updateChat(data.data)
-                selectChat(data.data)
-            }
-        };
+        connectToWebsocket()
+    }, [])
 
-        setSocket(newSocket);  // Зберегти посилання на WebSocket
-    }, [user]);  // Виконати підключення при зміні користувача
 
     const submitFormSendMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -53,24 +39,21 @@ const SendMessage = () => {
                     'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify({
-                    'sender_username': user!.username,
+                    'sender_name': username,
                     'chat_id': viewChat!.id,
                     'message_type': 'Text',
                     'message_content': e.currentTarget.message.value,
-                    'sender': user!.username,
                 })
             })
             if (response.ok) {
                 socket!.send(JSON.stringify({
-                command: 'chat_message', 
-                message: 'message sent',
-                chat_id: viewChat!.id,
-                recipient_username: viewChat!.interlocutor1.username === user!.username
-                ? viewChat!.interlocutor2.username
-                : viewChat!.interlocutor2.username === user!.username
-                && viewChat!.interlocutor1.username,
-                sender: user!.username,
-            }))
+                    command: 'chat_message', 
+
+                    message: 'Message sent',
+                    sender_name: username,
+                    recipient_name: interlocutorName,
+                    chat_id: viewChat!.id,
+                }))
 
             } else {
                 const data: {message: string} = await response.json()

@@ -10,12 +10,20 @@ const ChatMessages = () => {
     const {viewChat} = useTypedSelector(state => state)
     const {user} = useContext(AuthContext) as AuthContextType
     const messagesRef = useRef<HTMLDivElement | null>(null)
+    const {message} = useTypedSelector(state => state.websocket)
 
-    useEffect(() => {
-        if (messagesRef.current) {
-            messagesRef.current.scrollTop = messagesRef.current.scrollHeight
+    const scrollChatMessagesToEnd = () => {
+        if (message.command === 'update_chat') {
+            if (messagesRef.current) {
+                console.log('scroll')
+                messagesRef.current.scrollTop = messagesRef.current.scrollHeight
+            }
         }
-    }, [])
+    }
+
+    useEffect(() => {   
+        if(message)scrollChatMessagesToEnd()
+    }, [message]) 
 
   return (
     <div ref={messagesRef} className='flex flex-col overflow-y-auto'>

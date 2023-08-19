@@ -43,9 +43,8 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             if command == 'subscribe':
                 await self.subscribe()
             elif command == 'chat_message':
-                print(data)
                 await self.send_notification(
-                    data['sender'], data['recipient_username'], data['chat_id']
+                    data['sender_name'], data['recipient_name'], data['chat_id']
                 )
 
             # all_chats_with_last_message = \
@@ -64,7 +63,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.send(text_data=json.dumps({'command': 'subscribe', 'message': 'Subscribed to room'}))
-
 
     async def get_all_chats_with_last_message(self, username):
         all_chats_with_last_message = []
@@ -98,11 +96,10 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
     async def add_message(self, text_data):
         try:
             data = json.loads(text_data)
-            sender_username = data.get('sender_username')
+            sender_username = data.get('sender_name')
             chat_id = data.get('chat_id')
             message_type = data.get('message_type')
             message_content = data.get('message_content')
-            print(data)
 
             sender_account = User.objects.get(username=sender_username)
             chat = Chat.objects.get(id=chat_id)

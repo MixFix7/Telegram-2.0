@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react'
+import React, { FC, useContext, useEffect } from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { IChat } from '../../types/typeInstances'
 import { AuthContext } from '../Authorization/AuthContext'
@@ -6,10 +6,24 @@ import { AuthContextType } from '../Authorization/types'
 import {ChatMessages} from './ChatMessages'
 import { TopChatLabel } from './UI/TopChatLabel'
 import { SendMessage } from './SendMessage/SendMessage'
+import { useActions } from '../../hooks/useActions'
 
 const ViewChat: FC = () => {
-    const {viewChat} = useTypedSelector(state => state)
-    const {user} = useContext(AuthContext) as AuthContextType
+  const {viewChat} = useTypedSelector(state => state)
+  const {user} = useContext(AuthContext) as AuthContextType
+  const {message} = useTypedSelector(state => state.websocket)
+  const {updateChat, selectChat} = useActions()
+
+    const setNewChatData = () => {
+      if (message.command === 'update_chat') {
+        updateChat(message.data)
+        selectChat(message.data)
+      }
+    }
+
+    useEffect(() => {
+      if(message) setNewChatData()
+    }, [message])
 
   if(viewChat) return (
         <div 
