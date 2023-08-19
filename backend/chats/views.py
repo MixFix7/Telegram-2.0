@@ -27,12 +27,12 @@ class GetAllUserChatsAndMessages(APIView):
             all_chats = Chat.objects.filter(Q(interlocutor1__username=username) | Q(interlocutor2__username=username))
 
             for chat in all_chats:
-                last_message = Message.objects.filter(chat=chat)
+                messages = Message.objects.filter(chat=chat)
 
                 chat_json = ChatSerializer(chat).data
-                messages_json = MessageSerializer(last_message, many=True).data
+                messages_json = MessageSerializer(messages, many=True).data
                 chat_json['messages'] = messages_json
-                chat_json['last_message'] = messages_json[-1]
+                chat_json['last_message'] = messages_json[-1] if messages_json else []
 
                 all_chats_with_last_message.append(chat_json)
 

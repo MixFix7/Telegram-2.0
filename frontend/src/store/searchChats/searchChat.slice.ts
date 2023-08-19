@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IChat, IMessage } from "../../types/typeInstances";
+import { IChat } from "../../types/typeInstances";
 
 interface TypeInitSearchChats {
     searchQuery: IsearchQuery
-    chats: IChat[] | null
-    foundedChats: IChat[] | null
+    chats: IChat[]
+    foundedChats: IChat[]
     counterFounded: {
         chats: number,
         messages: number,
@@ -21,8 +21,8 @@ const initialState: TypeInitSearchChats = {
         query: '',
         username: '',
     },
-    chats: null,
-    foundedChats: null,
+    chats: [],
+    foundedChats: [],
     counterFounded: {
         chats: 0,
         messages: 0
@@ -37,24 +37,24 @@ export const searchChatSlice = createSlice({
             state.searchQuery.query = searchQuery.query
             state.searchQuery.username = searchQuery.username
         },
-        seatchChats: (state: TypeInitSearchChats) => {
+        setChats: (state: TypeInitSearchChats, {payload: chatsData}: PayloadAction<IChat[]>) => {
+            state.chats = chatsData
+            state.foundedChats = chatsData
+        },
+        searchChats: (state: TypeInitSearchChats) => {
             const {query} = state.searchQuery
-            const chatsArray =  state.chats
 
-
-            const foundedChats = chatsArray!.filter(chat => {
+            const foundedChats = state.chats.filter(chat => {
                 let messagesMatch = chat.messages.some(word => word.text?.toLowerCase() === query.toLowerCase())
                 let namesMatch1 = chat.interlocutor1.username.toLowerCase().includes(query.toLowerCase())
                 let namesMatch2 = chat.interlocutor2.username.toLowerCase().includes(query.toLowerCase())
                 let namesMatch = namesMatch1 || namesMatch2
 
-                if (query.length !== 0)
-                    return messagesMatch || namesMatch
-                else
-                    return true
+                return messagesMatch || namesMatch
+
             });
 
-            state.foundedChats = foundedChats;
+            state.foundedChats = foundedChats
             state.counterFounded.chats = foundedChats.length;
             state.counterFounded.messages = foundedChats.reduce((total, chat) => total + chat.messages.length, 0)
         },

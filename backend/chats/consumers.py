@@ -1,23 +1,14 @@
 import json
-import os
 
-from channels.generic.websocket import AsyncWebsocketConsumer
 from .serializers import *
 from .models import *
-from channels.db import database_sync_to_async
-from django.conf import settings
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
+
 from message.models import Message
 from message.serializers import MessageSerializer
+
+from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.layers import get_channel_layer
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 
 channel_layer = get_channel_layer()
 

@@ -33,7 +33,10 @@ const ChatMessages = () => {
     }, [])
 
   return (
-    <div ref={messagesRef} className='flex flex-col overflow-y-auto'>
+    <div 
+        ref={messagesRef} 
+        className={`flex flex-col overflow-y-auto`}
+    >
         {viewChat!.messages.map((message) => (
             message.sender.username === user!.username ? (
                 <YourMessage key={message.id} message={message}/>

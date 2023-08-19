@@ -5,6 +5,9 @@ import ChatsTopPanel from './TopPanel/ChatsTopPanel'
 
 const ChatsComponent: FC = () => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
+  const {foundedChats} = useTypedSelector(state => state.searchChats)
+
+  console.log(foundedChats)
 
   return (
     <div 
@@ -16,10 +19,11 @@ const ChatsComponent: FC = () => {
         {isLoading ? (
             <div>Loading...</div>
             ) : error ? (
-            <h1 className='text-2xl text-red-500'>{error}</h1>
+            <h1 className='text-2xl text-red-500'>{}</h1>
             ) : chatsData && (
-            chatsData.map((chat) => (
+              foundedChats?.map((chat) => (
               <>
+              {console.log(chat)}
                 <ChatContainer key={chat.id} chat={chat}/>
               </>
             ))

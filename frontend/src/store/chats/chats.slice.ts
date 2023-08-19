@@ -15,7 +15,6 @@ export const chatsSlice = createSlice({
     reducers: {
         updateChat: (state, {payload: newChat}) => {
             const chatId: number = state.chatsData.findIndex(chat => chat.id === newChat.id)
-            console.log(newChat)
             if(chatId !== 1) {
                 state.chatsData[chatId] = newChat
             }
@@ -31,6 +30,7 @@ export const chatsSlice = createSlice({
         (state, action) => {
             state.isLoading = false
             state.chatsData = action.payload
+            console.log(state.chatsData)
         })
         .addCase(getChats.rejected, 
         (state, action) => {
