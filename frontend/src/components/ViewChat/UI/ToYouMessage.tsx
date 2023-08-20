@@ -26,7 +26,7 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
             {message.sender.username}
           </span>
         </div>
-        <pre className='whitespace-pre-wrap flex justify-end'>
+        <pre className='whitespace-pre-wrap flex justify-start'>
           {message.text}
         </pre>
         <div className='w-full flex justify-start'>

@@ -10,6 +10,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
 
     const { viewChat } = useTypedSelector(state => state);
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
+    const [messageContent, setMessageContent] = useState<string>('')
 
     const submitFormSendMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -52,7 +53,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
               style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
               onSubmit={submitFormSendMessage}
         >
-            <InputMessage/>
+            <InputMessage messageContent={messageContent} setMessageContent={(message: string) => setMessageContent}/>
             <button type='submit'>
                 <IoMdSend
                     className='text-sky-500 hover:text-sky-600'

@@ -1,30 +1,29 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
-import { Link, useLoaderData, useNavigate } from 'react-router-dom'
+import { FC, useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useActions } from '../../hooks/useActions'
-import { useSelector } from 'react-redux'
-import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { SERVER_URL, WEBSOCKET_SERVER_URL, urls } from '../Routing/Routing'
+import { urls } from '../Routing/Routing'
 import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
 import ChatsComponent from '../Chats/ChatsComponent'
 import ViewChat from '../ViewChat/ViewChat'
-import { IChat } from '../../types/typeInstances'
 
 export const Home: FC = () => {
-  const {logoutUser, user, updateTokens} = useContext(AuthContext) as AuthContextType
+  const {user, updateTokens} = useContext(AuthContext) as AuthContextType
   const navigate = useNavigate()
-  const {getChats, setUrl, setRoom, setMessage} = useActions()
-  const {room} = useTypedSelector(state => state.websocket)
+  const {getChats} = useActions()
 
+  const getChatsData = async () => {
+    await updateTokens()
+    getChats(user!.username)
+  }
 
   useEffect(() => {
     if(user) {
-      updateTokens()
-      getChats(user.username)
+      getChatsData()
     } else
       navigate(urls.SignUp)
-  }, [])
-
+    }, [])
+    
   document.body.style.backgroundColor = '#0E1621'
 
   return (

@@ -1,6 +1,11 @@
-import React from 'react'
+import React, {FC} from 'react'
 
-const InputMessage = () => {
+interface IInputMessage {
+  messageContent: string
+  setMessageContent: (message: string) => void
+}
+
+const InputMessage: FC<IInputMessage> = ({messageContent}) => {
   return (
     <div className='w-5/6 ml-16 ring-0 outline-none border-0'>
         <input 
@@ -9,6 +14,7 @@ const InputMessage = () => {
             name='message'
             placeholder='Write a message...'
             style={{outline: 'none', borderColor: '#ccc'}}
+            value={messageContent}
         />
     </div>
   )
