@@ -15,7 +15,7 @@ const TopChatLabel = () => {
                 : viewChat?.interlocutor2.username === user!.username 
                 && viewChat.interlocutor1.username }
         </span>
-    </div>
+  </div>
   )
 }
 

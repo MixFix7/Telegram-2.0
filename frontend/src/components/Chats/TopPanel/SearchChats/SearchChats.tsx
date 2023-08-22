@@ -7,7 +7,7 @@ import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 const SeactChats = () => {
   const [query, setQuery] = useState<string>('')
 
-  const {setSearchQuery, searchChats, setChats} = useActions()
+  const {setSearchQuery, searchChats, searchUsers , setChats} = useActions()
   const {searchQuery} = useTypedSelector(state => state.searchChats)
   const {chatsData} = useTypedSelector(state => state.chats)
 
@@ -28,6 +28,7 @@ const SeactChats = () => {
 
   useEffect(() => {
     searchChats()
+    searchUsers()
   }, [searchQuery])
 
   return (

@@ -2,12 +2,11 @@ import React, {FC} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import ChatContainer from './UI/ChatContainer'
 import ChatsTopPanel from './TopPanel/ChatsTopPanel'
+import { UserChatComponent } from './UI/UserChatComponent'
 
 const ChatsComponent: FC = () => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
-  const {foundedChats} = useTypedSelector(state => state.searchChats)
-
-  console.log(foundedChats)
+  const {foundedChats, foundedUsers, searchQuery} = useTypedSelector(state => state.searchChats)
 
   return (
     <div 
@@ -20,13 +19,25 @@ const ChatsComponent: FC = () => {
             <div>Loading...</div>
             ) : error ? (
             <h1 className='text-2xl text-red-500'>{}</h1>
-            ) : chatsData && (
-              foundedChats?.map((chat) => (
-              <>
-              {console.log(chat)}
-                <ChatContainer key={chat.id} chat={chat}/>
-              </>
-            ))
+            ) : chatsData && ( 
+            <>
+
+              {searchQuery.query.length > 0 &&
+               foundedUsers?.map((user) => (
+                <UserChatComponent key={user.id} user={user}/>
+              ))}
+
+              {searchQuery.query.length > 0 && 
+              <h1 className='bg-gray-900 font-bold p-1 mt-2'>
+                Messages
+              </h1>}
+
+              {foundedChats?.map((chat) => (
+                  <ChatContainer key={chat.id} chat={chat}/>    
+              ))} 
+
+            </>
+              
             )}
         </div>
     </div>

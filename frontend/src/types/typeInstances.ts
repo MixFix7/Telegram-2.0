@@ -16,5 +16,7 @@ export interface IChat {
     interlocutor1 : IUser 
     interlocutor2: IUser
     messages: IMessage[]
-    last_message: IMessage
+    last_message?: IMessage
 }
+
+

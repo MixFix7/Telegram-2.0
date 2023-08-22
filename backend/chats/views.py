@@ -89,6 +89,17 @@ class GetChatMessages(APIView):
             return Response({'message': e})
 
 
+class GetAllUsers(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        username = request.data.get('username')
+        users = User.objects.exclude(username=username)
+        users_json = [InterlocutorSerializer(user).data for user in users]
+        return Response(users_json, status=status.HTTP_200_OK)
+
+
 class StartNewChat(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]

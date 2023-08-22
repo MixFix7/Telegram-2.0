@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('all-chats-and-messages/', GetAllUserChatsAndMessages.as_view()),
+    path('all-users/', GetAllUsers.as_view()),
     path('all-user-chats/', GetAllUserChats.as_view()),
     path('chat-messages/', GetChatMessages.as_view()),
     path('start-new-chat/', StartNewChat.as_view()),
