@@ -116,8 +116,11 @@ class StartNewChat(APIView):
                 interlocutor1=interlocutor1_account,
                 interlocutor2=interlocutor2_account
             )
+            new_chat_json = ChatSerializer(new_chat).data
+            new_chat_json['messages'] = []
+            new_chat_json['last_message'] = None
 
-            return Response({'message': 'chat was created successfully'}, status=status.HTTP_201_CREATED)
+            return Response(new_chat_json, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response({'message': e})

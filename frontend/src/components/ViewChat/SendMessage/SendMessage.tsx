@@ -1,12 +1,16 @@
 import React, { FormEvent, useState, useEffect, FC, ChangeEvent } from 'react';
 import { IoMdSend } from 'react-icons/io';
-import { SERVER_URL, WEBSOCKET_SERVER_URL } from '../../Routing/Routing';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { InputMessage } from './UI/InputMessage';
 import { useInterlocutorName } from '../../../hooks/useInterlocutorName';
 import { ISendMessageP } from '../../../types/typeViewChat';
+import { useActions } from '../../../hooks/useActions';
+import { ChatService } from '../../../services/chat.service';
+import { IAddMessage } from '../../../types/typeService';
 
 const SendMessage: FC<ISendMessageP> = ({socket}) => {
+    const {selectChat, startNewChat} = useActions()
+    const service = new ChatService()
 
     const { viewChat } = useTypedSelector(state => state);
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
@@ -16,38 +20,60 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
         setMessageContent(e.target.value)
     }
 
-    const submitFormSendMessage = async(e: FormEvent<HTMLFormElement>) => {
+    const submitFormSendMessage = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            const token: string = JSON.parse(localStorage.getItem('authTokens')!).access
-            const response = await fetch(SERVER_URL + '/api/messages/send-message/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
-                },
-                body: JSON.stringify({
-                    'sender_name': username,
-                    'chat_id': viewChat!.id,
-                    'message_type': 'Text',
-                    'message_content': e.currentTarget.message.value,
-                })
-            })
-            if (response.ok) {
-                socket!.send(JSON.stringify({
-                    command: 'chat_message', 
-                    
-                    message: 'Message sent',
-                    sender_name: username,
-                    recipient_name: interlocutorName,
-                    chat_id: viewChat!.id,
+            const message: string = e.currentTarget.message.value
+            if (viewChat!.messages.length === 0) {
+                const response = await service.createNewChat(
+                    viewChat!.interlocutor1.username,
+                    viewChat!.interlocutor2.username,
+                )
+                .then(response => {
+                    startNewChat(response.data)
+                    selectChat(response.data)
+
+                    const data: IAddMessage  = {
+                        sender_name: username,
+                        chat_id: response.data.id,
+                        message_type: 'Text',
+                        message_content: message
+                    }
+
+                    const response2 = service.sendMessage(data)
+                    .then(response2 => {
+                        socket!.send(JSON.stringify({
+                        command: 'chat_message', 
+                        message: 'Message sent',
+                        sender_name: username,
+                        recipient_name: interlocutorName,
+                        chat_id: response.data.id,
                 }))
                 setMessageContent('')
-
+            })
+                })
+                
+                 
             } else {
-                const data: {message: string} = await response.json()
-                alert(data.message)
+                const data: IAddMessage  = {
+                    sender_name: username,
+                    chat_id: viewChat!.id,
+                    message_type: 'Text',
+                    message_content: message
+                }
+                const response2 = await service.sendMessage(data)
+                .then(response2 => {
+                    socket!.send(JSON.stringify({
+                        command: 'chat_message', 
+                        message: 'Message sent',
+                        sender_name: username,
+                        recipient_name: interlocutorName,
+                        chat_id: viewChat!.id,
+                    }))
+                    setMessageContent('')
+                })
             }
+        
         } catch (error) {
             console.error(error)
         }

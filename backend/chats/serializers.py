@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 
 class InterlocutorSerializer(serializers.ModelSerializer):
     avatar = serializers.CharField(source='profile.avatar', read_only=True)
+    phoneNumber = serializers.CharField(source='profile.phone_number', read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'avatar']
+        fields = ['id', 'username', 'avatar', 'phoneNumber']
 
 
 class ChatSerializer(serializers.ModelSerializer):

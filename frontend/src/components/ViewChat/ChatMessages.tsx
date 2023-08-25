@@ -15,7 +15,6 @@ const ChatMessages = () => {
     const scrollChatMessagesToEnd = () => {
         if (message.command === 'update_chat') {
             if (messagesRef.current) {
-                console.log(messagesRef.current.scrollHeight)
                 messagesRef.current.scrollTop = messagesRef.current.scrollHeight
             }
         }
@@ -37,8 +36,11 @@ const ChatMessages = () => {
         ref={messagesRef} 
         className={`flex flex-col overflow-y-auto h-full`}
     >
-        {viewChat!.messages.map((message) => (
-            message.sender.username === user!.username ? (
+        {viewChat!.messages
+        ?.slice()
+        .sort((a, b) => a.id - b.id)
+        .map((message) => (
+            message?.sender.username === user!.username ? (
                 <YourMessage key={message.id} message={message}/>
             ) : (
                 <ToYouMessage key={message.id} message={message}/> 

@@ -14,12 +14,15 @@ const ViewChat: FC = () => {
 
   const [socket, setSocket] = useState<WebSocket | null>(null)
  
-  const {message, room} = useTypedSelector(state => state.websocket)
+  const {message, room} = useTypedSelector(state => state.websocket) 
+  const {chatsData} = useTypedSelector(state => state.chats) 
   const {viewChat} = useTypedSelector(state => state)
+
+  console.log(chatsData)
 
   const {
     updateChat, selectChat, setUrl, 
-    setRoom, setMessage
+    setRoom, setMessage, startNewChat
   } = useActions()
 
 
@@ -30,20 +33,23 @@ const ViewChat: FC = () => {
     const socket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`)
     setSocket(socket)
 
-      socket.onopen = () => {
-        socket.send(JSON.stringify({ command: "subscribe", room: room}))
-      }
-  
-      socket.onmessage = (e) => {
-        const data = JSON.parse(e.data)
-        setMessage(data)
-      }
+    socket.onopen = () => {
+      socket.send(JSON.stringify({ command: "subscribe", room: room}))
     }
+  
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data)
+      console.log(data)
+      if (data.command === 'update_chat')
+        setMessage(data)
+    }
+  }
 
 
     const setNewChatData = () => {
       if (message.command === 'update_chat') {
-        updateChat(message.data)
+        updateChat(message.data);
+      if (viewChat && message.data.id === viewChat!.id)
         selectChat(message.data)
       }
     }

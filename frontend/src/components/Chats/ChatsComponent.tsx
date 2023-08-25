@@ -14,7 +14,7 @@ const ChatsComponent: FC = () => {
     >
       <ChatsTopPanel/>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col overflow-y-auto'>
         {isLoading ? (
             <div>Loading...</div>
             ) : error ? (

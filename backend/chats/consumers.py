@@ -120,7 +120,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
 
     async def chat_notification(self, event):
         chat_id = event['chat_id']
-
         chat_data = await self.get_chat_messages(chat_id)
 
         await self.send(text_data=json.dumps({
@@ -128,7 +127,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             'command': 'update_chat',
             'data': chat_data,
         }))
-
 
 
 

@@ -76,8 +76,12 @@ export const searchChatSlice = createSlice({
             const query = state.searchQuery.query
 
             const foundedUsers = state.allUsers.filter(
-                (user) => user.username.toLowerCase()
-                .includes(query.toLowerCase())
+                (user) => {          
+                   let namesMatch = user.username.toLowerCase().includes(query.toLowerCase())
+                   let phoneNumberMatch = user.phoneNumber === query
+
+                   return namesMatch || phoneNumberMatch
+                } 
             )
 
             state.foundedUsers = foundedUsers

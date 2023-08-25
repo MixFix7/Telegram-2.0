@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import { IChat } from "../../types/typeInstances";
 
 
@@ -6,7 +7,7 @@ export const viewChatSlice = createSlice({
     name: 'viewChat',
     initialState: null as IChat | null,
     reducers: {
-        selectChat: (state, {payload: chat}) => {
+        selectChat: (state, {payload: chat}: PayloadAction<IChat>) => {
             return chat
         }
     }

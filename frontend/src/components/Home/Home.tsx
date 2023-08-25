@@ -9,12 +9,15 @@ import ViewChat from '../ViewChat/ViewChat'
 import { IChat } from '../../types/typeInstances'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { IUser } from '../../types/typeUser'
+import { ChatService } from '../../services/chat.service'
 
 export const Home: FC = () => {
   const {user, updateTokens} = useContext(AuthContext) as AuthContextType
   const navigate = useNavigate()
   const {getChats, setAllUsers} = useActions()
   const {allUsers, foundedChats} = useTypedSelector(state => state.searchChats)
+
+  const service = new ChatService()
 
   const getChatsData = async () => {
     await updateTokens()
@@ -23,22 +26,8 @@ export const Home: FC = () => {
   }
 
   const getAllUsers = async () => {
-      const token: string = JSON.parse(localStorage.getItem('authTokens')!).access
-      const response = await fetch(SERVER_URL + '/api/chats/all-users/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}` 
-          },
-          body: JSON.stringify({
-              'username': user!.username
-          })
-      })
-      if (response.ok) {
-        const data: IUser[] = await response.json()
-        setAllUsers(data)
-        
-      }
+    const response = await service.getAllUsers(user!.username)
+    .then(response => setAllUsers(response.data))
   }
 
   useEffect(() => {

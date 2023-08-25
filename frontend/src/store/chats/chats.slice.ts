@@ -17,8 +17,10 @@ export const chatsSlice = createSlice({
     reducers: {
         updateChat: (state, {payload: newChat}) => {
             const chatId: number = state.chatsData.findIndex(chat => chat.id === newChat.id)
-            if(chatId !== 1) {
-                state.chatsData[chatId] = newChat
+            if (chatId !== -1) {
+                state.chatsData[chatId] = newChat;
+            } else {
+                state.chatsData.push(newChat);
             }
         },
         startNewChat: (state, {payload: newChat}: PayloadAction<IChat>) => {

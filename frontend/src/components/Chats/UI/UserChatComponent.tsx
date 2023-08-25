@@ -19,22 +19,24 @@ interface IUserChatComponent {
 const UserChatComponent: FC<IUserChatComponent> = ({user}) => {
   const chatRef = useRef<HTMLDivElement | null>(null)
   const [isSelected, setIsSelected] = useState<boolean>(false)
-  const {user: userData}= useContext(AuthContext) as AuthContextType
+  const {user: userData} = useContext(AuthContext) as AuthContextType
 
   const {selectChat, startNewChat} = useActions()
   
   const onClick = () => {
     const newChat: IChat = {
-      id: 10,
+      id: 0,
       interlocutor1: {
         id: userData!.user_id,
         username: userData!.username,
         avatar: userData!.avatar,
+        phoneNumber: userData!.phone_number
       },
       interlocutor2: {
         id: user.id,
         username: user.username,
         avatar: user.avatar,
+        phoneNumber: user.phoneNumber
       },
       messages: [],
     }
@@ -48,7 +50,7 @@ const UserChatComponent: FC<IUserChatComponent> = ({user}) => {
         className={`
           w-full h-20 bg-transparent flex 
         hover:bg-gray-700 cursor-pointer
-          items-center justify-center
+          items-center justify-center p-2
           ${isSelected ? 'bg-sky-700' : ''}
         `}
         onClick={onClick}
