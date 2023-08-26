@@ -1,12 +1,19 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import ChatContainer from './UI/ChatContainer'
 import ChatsTopPanel from './TopPanel/ChatsTopPanel'
 import { UserChatComponent } from './UI/UserChatComponent'
+import { useActions } from '../../hooks/useActions'
 
 const ChatsComponent: FC = () => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
   const {foundedChats, foundedUsers, searchQuery} = useTypedSelector(state => state.searchChats)
+  const {chats} = useTypedSelector(state => state.searchChats)
+  const {setChats} = useActions()
+
+  useEffect(() => {
+    setChats(chatsData)
+  }, [chatsData])
 
   return (
     <div 

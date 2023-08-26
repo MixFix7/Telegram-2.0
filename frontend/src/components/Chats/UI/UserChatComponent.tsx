@@ -20,6 +20,7 @@ const UserChatComponent: FC<IUserChatComponent> = ({user}) => {
   const chatRef = useRef<HTMLDivElement | null>(null)
   const [isSelected, setIsSelected] = useState<boolean>(false)
   const {user: userData} = useContext(AuthContext) as AuthContextType
+  const {setSearchQuery} = useActions()
 
   const {selectChat, startNewChat} = useActions()
   
@@ -42,6 +43,10 @@ const UserChatComponent: FC<IUserChatComponent> = ({user}) => {
     }
     selectChat(newChat)
     setIsSelected(!isSelected)
+    setSearchQuery({
+      query: '',
+      username: user!.username,
+    })
   }
 
   return (

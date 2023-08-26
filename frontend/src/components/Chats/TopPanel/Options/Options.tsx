@@ -35,13 +35,13 @@ const Options: FC<IOptionsComp> = ({hideOptions}) => {
     },
     {
       id: 2,
-      icon: <BiUserCircle size={'25px'}/>,
+      icon: <LiaBullhornSolid size={'25px'}/>,
       label: 'New channel',
       showModal: () => showElement({key: 'NewChannel'})
     },
     {
       id: 3,
-      icon: <LiaBullhornSolid size={'25px'}/>,
+      icon: <BiUserCircle size={'25px'}/>,
       label: 'Contacts',
       showModal: () => showElement({key: 'Contacts'})
     },

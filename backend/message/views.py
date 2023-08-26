@@ -54,13 +54,12 @@ class ChangeMessage(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def put(self, request):
+    def post(self, request):
         try:
-            sender_username = request.data.get('sender_username')
             message_id = request.data.get('message_id')
-            changed_message_content = request.data.get('changed_message_content')
+            changes = request.data.get('changes')
 
-            message = Message.objects.get(id=message_id, sender_username=sender_username)
+            message = Message.objects.get(id=message_id)
 
             if message.type != 'Text':
                 return Response(
@@ -68,29 +67,29 @@ class ChangeMessage(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            message.text = changed_message_content; message.save()
+            message.text = changes
+            message.save()
 
             return Response({'message': 'message was change successfully'})
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
 
 
 class DeleteMessage(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
+    def post(self, request):
         try:
-            sender_username, message_id = request.data
+            message_id = request.data.get('message_id')
+            print(message_id)
 
-            message = Message.objects\
-                .get(id=message_id, sender_username=sender_username)\
-                .delete()
+            message = Message.objects.get(id=message_id).delete()
 
             return Response({'message': 'message was deleted successfully'})
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
 
 

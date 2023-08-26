@@ -9,3 +9,7 @@ export interface IAddMessage {
     message_type: string
     message_content: string
 }
+
+export interface IServerMessage {
+    message: string
+}

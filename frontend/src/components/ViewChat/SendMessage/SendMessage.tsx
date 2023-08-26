@@ -7,10 +7,12 @@ import { ISendMessageP } from '../../../types/typeViewChat';
 import { useActions } from '../../../hooks/useActions';
 import { ChatService } from '../../../services/chat.service';
 import { IAddMessage } from '../../../types/typeService';
+import { MessageService } from '../../../services/message.service';
 
 const SendMessage: FC<ISendMessageP> = ({socket}) => {
     const {selectChat, startNewChat} = useActions()
-    const service = new ChatService()
+    const messageService = new MessageService()
+    const chatService = new ChatService()
 
     const { viewChat } = useTypedSelector(state => state);
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
@@ -25,7 +27,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
         try {
             const message: string = e.currentTarget.message.value
             if (viewChat!.messages.length === 0) {
-                const response = await service.createNewChat(
+                const response = await chatService.createNewChat(
                     viewChat!.interlocutor1.username,
                     viewChat!.interlocutor2.username,
                 )
@@ -40,7 +42,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                         message_content: message
                     }
 
-                    const response2 = service.sendMessage(data)
+                    const response2 = messageService.sendMessage(data)
                     .then(response2 => {
                         socket!.send(JSON.stringify({
                         command: 'chat_message', 
@@ -61,7 +63,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                     message_type: 'Text',
                     message_content: message
                 }
-                const response2 = await service.sendMessage(data)
+                const response2 = await messageService.sendMessage(data)
                 .then(response2 => {
                     socket!.send(JSON.stringify({
                         command: 'chat_message', 

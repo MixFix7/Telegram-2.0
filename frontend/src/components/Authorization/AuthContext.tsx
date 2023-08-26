@@ -107,12 +107,12 @@ export const AuthProvider: FC<Interfaces.IAuthProvider<ReactNode>>  = ({ childre
         }
   
       const contextData = {
-      user: user,
-      loginUser: loginUser,
-      logoutUser: logoutUser,
-      signupUser: signupUser,
-      updateTokens: updateToken,
-    };
+        user: user,
+        loginUser: loginUser,
+        logoutUser: logoutUser,
+        signupUser: signupUser,
+        updateTokens: updateToken,
+     };
 
     useEffect(() => {
         let interval = setInterval(()=> {

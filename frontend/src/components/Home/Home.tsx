@@ -22,7 +22,7 @@ export const Home: FC = () => {
 
   const getChatsData = async () => {
     await updateTokens()
-    await getAllUsers()
+    .then (() => getAllUsers())
     getChats(user!.username)
   }
 
@@ -34,7 +34,6 @@ export const Home: FC = () => {
   useEffect(() => {
     if(user) {
       getChatsData()
-      getAllUsers()
     } else
       navigate(urls.SignUp)
     }, [])
