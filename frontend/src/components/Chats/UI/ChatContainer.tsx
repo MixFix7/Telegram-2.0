@@ -32,15 +32,15 @@ const ChatContainer: FC<IChatProps> = ({chat}) => {
 
   return (
       <div
-      ref={chatRef}
-      className={`
-        w-full h-20 bg-transparent flex 
-      hover:bg-gray-700 cursor-pointer
-        items-center justify-center
-        p-2
-        ${isSelected ? 'bg-sky-700' : ''}
-      `}
-      onClick={onClick}
+        ref={chatRef}
+        className={`
+          w-full h-20 bg-transparent flex 
+        hover:bg-gray-700 cursor-pointer
+          items-center justify-center
+          p-2
+          ${isSelected ? 'bg-sky-700' : ''}
+        `}
+        onClick={onClick}
       >
         <div className='flex items-center justify-center w-1/4'>
             <InterlocutorAvatar 

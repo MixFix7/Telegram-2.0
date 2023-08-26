@@ -10,6 +10,7 @@ import { IChat } from '../../types/typeInstances'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { IUser } from '../../types/typeUser'
 import { ChatService } from '../../services/chat.service'
+import { PrivateRoute } from '../Routing/PrivateRoute'
 
 export const Home: FC = () => {
   const {user, updateTokens} = useContext(AuthContext) as AuthContextType
@@ -41,9 +42,9 @@ export const Home: FC = () => {
   document.body.style.backgroundColor = '#0E1621'
 
   return (
-    <div className='flex items-center h-screen text-white'>
-      <ChatsComponent/>
-      <ViewChat/>
-    </div>
+      <div className='flex items-center h-screen text-white'>
+        <ChatsComponent/>
+        <ViewChat/>
+      </div>
   )
 }

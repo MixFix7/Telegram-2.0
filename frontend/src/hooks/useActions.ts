@@ -6,6 +6,7 @@ import {actions as viewChatActions} from '../store/viewChat/viewChat.slice'
 import {actions as ChatsSliceActions2} from '../store/chats/chats.slice'
 import {actions as websocketActions}  from '../store/websocket/websocket.slice'
 import { searchChatSlice } from '../store/searchChats/searchChat.slice'
+import { showElementsSlice } from '../store/showElements/showElements.slice'
 
 const rootActions = {
     ...ChatsSliceActions,
@@ -13,6 +14,7 @@ const rootActions = {
     ...ChatsSliceActions2,
     ...websocketActions,
     ...searchChatSlice.actions,
+    ...showElementsSlice.actions
 }
 
 export const useActions = () => {

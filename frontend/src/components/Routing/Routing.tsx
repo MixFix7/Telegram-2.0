@@ -3,6 +3,7 @@ import { Home } from "../Home/Home";
 import axios from "axios";
 import SignUpPage from '../Authorization/SignUpPage';
 import LoginPage from '../Authorization/LogInPage';
+import { PrivateRoute } from "./PrivateRoute";
 
 export const endPoints = {
   Auth: '/auth/'
@@ -20,7 +21,10 @@ export const WEBSOCKET_SERVER_URL: string = 'ws://localhost:8000/ws/'
 const router = createBrowserRouter([
     {
         path: urls.Home,
-        element: <Home/>,
+        element:
+          <PrivateRoute>
+            <Home/>
+          </PrivateRoute> 
       }, 
           // AUTHORIZATION
       {

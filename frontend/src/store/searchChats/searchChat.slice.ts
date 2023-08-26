@@ -59,7 +59,7 @@ export const searchChatSlice = createSlice({
         searchChats: (state: TypeInitSearchChats) => {
             const query = state.searchQuery.query;
         
-            const foundedChats = state.chats.filter(chat => {
+            let foundedChats = state.chats.filter(chat => {
                 let messagesMatch = chat.messages?.some(word => word.text?.toLowerCase().includes(query.toLowerCase()));
                 let namesMatch1 = chat.interlocutor1?.username.toLowerCase().includes(query.toLowerCase());
                 let namesMatch2 = chat.interlocutor2?.username.toLowerCase().includes(query.toLowerCase());
@@ -67,7 +67,7 @@ export const searchChatSlice = createSlice({
         
                 return messagesMatch || namesMatch;
             });
-        
+            
             state.foundedChats = foundedChats;
             state.counterFounded.chats = foundedChats.length;
             state.counterFounded.messages = foundedChats.reduce((total, chat) => total + chat.messages.length, 0);

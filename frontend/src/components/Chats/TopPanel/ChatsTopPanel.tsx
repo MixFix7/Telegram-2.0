@@ -1,6 +1,6 @@
 import React from 'react'
 import SeactChats from './SearchChats/SearchChats'
-import OptionsShowButton from './OptionsButton/OptionsShowButton'
+import OptionsShowButton from './Options/OptionsShowButton'
 
 const ChatsTopPanel = () => {
   return (
