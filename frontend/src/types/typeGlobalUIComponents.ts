@@ -8,6 +8,7 @@ export interface IImageUIProps {
 }
 
 export interface IMessageComponent {
+    socket?: WebSocket | null
     message: IMessage
 }
 

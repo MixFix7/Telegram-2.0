@@ -1,12 +1,13 @@
-import React, {useContext, useRef, useEffect} from 'react'
+import React, {useContext, useRef, useEffect, FC} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
 import Message from './UI/Message'
 import YourMessage from './UI/YourMessage'
 import ToYouMessage from './UI/ToYouMessage'
+import { ISendMessageP } from '../../types/typeViewChat'
 
-const ChatMessages = () => {
+const ChatMessages: FC<ISendMessageP> = ({socket}) => {
     const {viewChat} = useTypedSelector(state => state)
     const {user} = useContext(AuthContext) as AuthContextType
     const messagesRef = useRef<HTMLDivElement | null>(null)
@@ -41,7 +42,7 @@ const ChatMessages = () => {
         .sort((a, b) => a.id - b.id)
         .map((message) => (
             message?.sender.username === user!.username ? (
-                <YourMessage key={message.id} message={message}/>
+                <YourMessage key={message.id} message={message} socket={socket}/>
             ) : (
                 <ToYouMessage key={message.id} message={message}/> 
             )

@@ -69,7 +69,7 @@ const ViewChat: FC = () => {
             '
         >
             <TopChatLabel/>
-            <ChatMessages/>  
+            <ChatMessages socket={socket}/>  
             <SendMessage socket={socket}/>  
         </div>
       )

@@ -4,7 +4,7 @@ import Image from '../../GlobalUI/Image'
 import DispatchMessageDate from '../../GlobalUI/DispatchMessageDate'
 import MessageOptions from './MessageOptions'
 
-const YourMessage: FC<IMessageComponent> = ({message}) => {
+const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
   const [onMouse, setOnMouse] = useState<boolean>(false)
 
   return (
@@ -28,7 +28,7 @@ const YourMessage: FC<IMessageComponent> = ({message}) => {
           {message.text}
         </pre>
         <div className='w-full flex justify-end'>
-          {onMouse && <MessageOptions message={message}/>}
+          {onMouse && <MessageOptions message={message} socket={socket}/>}
           <DispatchMessageDate 
               className='text-sm text-sky-500'
               dispatchDateISO={message.dispatch_date}

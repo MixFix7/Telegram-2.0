@@ -6,4 +6,5 @@ export interface ISendMessageP {
 
 export interface IMessageOptions {
     message: IMessage
+    socket?: WebSocket | null
 }
