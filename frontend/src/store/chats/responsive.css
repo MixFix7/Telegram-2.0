@@ -1,0 +1,53 @@
+.left-part-size {
+  width: 350px;
+}
+
+.editorSize {
+  height: 80vh;
+}
+
+@media only screen and  (max-width: 500px) {
+}
+
+@media only screen and (max-width: 850px) {
+  .flexColMbSm {
+    flex-direction: column;
+ }
+}
+
+
+@media only screen and (max-width: 1278px) {
+
+   .flexColMb {
+      flex-direction: column;
+   }
+
+   .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 999; 
+  }
+
+  .background-left-part {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.596);
+}
+}
+  
+  /* Tablet */
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Add styles for tablets */
+  }
+  
+  /* Desktop */
+  @media only screen and (min-width: 1024px) {
+    /* Add styles for desktop */
+  }
+  
+
