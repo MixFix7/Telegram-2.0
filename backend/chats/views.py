@@ -58,7 +58,7 @@ class GetAllUserChats(APIView):
 
                 chat_json = ChatSerializer(chat).data
                 last_message_json = MessageSerializer(last_message).data
-                chat_json['last_message'] = last_message_json
+                chat_json['last_message'] = last_message_json if last_message else None
 
                 all_chats_with_last_message.append(chat_json)
 

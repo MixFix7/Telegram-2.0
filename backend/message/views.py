@@ -83,7 +83,6 @@ class DeleteMessage(APIView):
     def post(self, request):
         try:
             message_id = request.data.get('message_id')
-            print(message_id)
 
             message = Message.objects.get(id=message_id).delete()
 

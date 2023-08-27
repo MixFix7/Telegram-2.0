@@ -7,8 +7,9 @@ import { AuthContext } from '../../Authorization/AuthContext'
 import { AuthContextType } from '../../Authorization/types'
 import { useInterlocutorName } from '../../../hooks/useInterlocutorName'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import SaveMessageChanges from './SaveMessageChanges'
 
-const MessageOptions: FC<IMessageOptions> = ({message, socket}) => {
+const MessageOptions: FC<IMessageOptions> = ({message, socket, isChangeMessage, showChangeMessage, changingMessage}) => {
     const messageService = new MessageService()
     const {user} = useContext(AuthContext) as AuthContextType
     const {viewChat} = useTypedSelector(state => state)
@@ -21,30 +22,33 @@ const MessageOptions: FC<IMessageOptions> = ({message, socket}) => {
         size={'15px'}
         onClick={() => {
             messageService.deleteMessage({id: message.id})
-            socket!.send(JSON.stringify({
-              command: 'chat_message', 
-              message: 'Message sent',
-              sender_name: username,
-              recipient_name: interlocutorName,
-              chat_id: viewChat!.id,
-          }))
+            .then(() => {
+              socket!.send(JSON.stringify({
+                command: 'chat_message', 
+                message: 'Message sent',
+                sender_name: username,
+                recipient_name: interlocutorName,
+                chat_id: viewChat!.id,
+            }))
+            })
         }
     }
       />
-      <BiPencil
-        className='cursor-pointer ml-1'
-        size={'15px'}
-        onClick={() => {
-          messageService.changeMessage({id: message.id}, 'changes')
-          socket!.send(JSON.stringify({
-            command: 'chat_message', 
-            message: 'Message sent',
-            sender_name: username,
-            recipient_name: interlocutorName,
-            chat_id: viewChat!.id,
-        }))
-        }}
-      />
+      {!isChangeMessage ? (
+        <BiPencil
+          className='cursor-pointer ml-1'
+          size={'15px'}
+          onClick={() => showChangeMessage(true)}
+        />
+
+      ) : (
+        <SaveMessageChanges 
+          messageId={message.id} 
+          changingMessage={changingMessage!}
+          socket={socket}
+          showChangeMessage={showChangeMessage}
+        />
+      )}
     </div>
   )
 }

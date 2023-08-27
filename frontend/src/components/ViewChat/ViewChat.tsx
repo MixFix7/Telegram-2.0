@@ -39,7 +39,6 @@ const ViewChat: FC = () => {
   
     socket.onmessage = (e) => {
       const data = JSON.parse(e.data)
-      console.log(data)
       if (data.command === 'update_chat')
         setMessage(data)
     }
@@ -48,7 +47,7 @@ const ViewChat: FC = () => {
 
     const setNewChatData = () => {
       if (message.command === 'update_chat') {
-        updateChat(message.data);
+        updateChat(message.data)
       if (viewChat && message.data.id === viewChat!.id)
         selectChat(message.data)
       }

@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import React, {ChangeEvent, ChangeEventHandler, EventHandler, FC, useState} from 'react'
 import { IMessageComponent } from '../../../types/typeGlobalUIComponents'
 import Image from '../../GlobalUI/Image'
 import DispatchMessageDate from '../../GlobalUI/DispatchMessageDate'
@@ -6,6 +6,8 @@ import MessageOptions from './MessageOptions'
 
 const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
   const [onMouse, setOnMouse] = useState<boolean>(false)
+  const [isChangeMessage, setIsChangeMessage] = useState<boolean>(false)
+  const [changingMessage, setChangingMessage] = useState<string | null | undefined>(message.text)
 
   return (
     <div 
@@ -24,11 +26,31 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
             {message.sender.username}
           </span>
         </div>
-        <pre className='whitespace-pre-wrap flex justify-end'>
-          {message.text}
-        </pre>
+        {!isChangeMessage ? (
+          <pre className='whitespace-pre-wrap flex justify-end'>
+            {message.text}
+          </pre>
+        ) : (
+          <textarea 
+            className='bg-transparent text-right'
+            style={{outline: 'none', borderColor: '#ccc'}}
+            value={changingMessage!}
+            onChange={(event: ChangeEvent<HTMLTextAreaElement>) => 
+              setChangingMessage(event.currentTarget.value)}
+          />
+        )}
+
+
+
         <div className='w-full flex justify-end'>
-          {onMouse && <MessageOptions message={message} socket={socket}/>}
+          {onMouse && 
+          <MessageOptions 
+            message={message} 
+            socket={socket}
+            isChangeMessage={isChangeMessage}
+            showChangeMessage={(bool: boolean) => setIsChangeMessage(bool)}
+            changingMessage={changingMessage}
+          />}
           <DispatchMessageDate 
               className='text-sm text-sky-500'
               dispatchDateISO={message.dispatch_date}
