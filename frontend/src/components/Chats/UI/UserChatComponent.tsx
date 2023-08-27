@@ -14,17 +14,19 @@ import { SERVER_URL } from '../../Routing/Routing'
 
 interface IUserChatComponent {
   user: IUser
+  selectCurrentChat: (chatId: undefined) => void
 }
 
-const UserChatComponent: FC<IUserChatComponent> = ({user}) => {
+const UserChatComponent: FC<IUserChatComponent> = ({user, selectCurrentChat}) => {
   const chatRef = useRef<HTMLDivElement | null>(null)
   const [isSelected, setIsSelected] = useState<boolean>(false)
   const {user: userData} = useContext(AuthContext) as AuthContextType
   const {setSearchQuery} = useActions()
 
-  const {selectChat, startNewChat} = useActions()
+  const {selectChat} = useActions()
   
   const onClick = () => {
+    selectCurrentChat(undefined)
     const newChat: IChat = {
       id: 0,
       interlocutor1: {

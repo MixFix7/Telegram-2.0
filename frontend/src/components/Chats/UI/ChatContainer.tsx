@@ -12,33 +12,33 @@ import { LastMessage } from './LastMessage'
 
 interface IChatProps {
   chat: IChat
+  selected: {id: number, isSelected: boolean} | undefined
+  selectCurrentChat: (chatId: number) => void
 }
 
 
-const ChatContainer: FC<IChatProps> = ({chat}) => {
+const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat}) => {
   const chatRef = useRef<HTMLDivElement | null>(null)
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-
   const {user} = useContext(AuthContext) as AuthContextType
   const {selectChat} = useActions()
-  
+
   const username: string = user!.username 
 
   
   const onClick = () => {
     selectChat(chat)
-    setIsSelected(!isSelected)
+    selectCurrentChat(chat.id)
   }
 
   return (
       <div
         ref={chatRef}
         className={`
-          w-full h-20 bg-transparent flex 
-        hover:bg-gray-700 cursor-pointer
+          w-full h-20 flex 
+         cursor-pointer
           items-center justify-center
           p-2
-          ${isSelected ? 'bg-sky-700' : ''}
+          ${selected?.isSelected ? 'bg-sky-700' : 'hover:bg-gray-700'}
         `}
         onClick={onClick}
       >

@@ -11,3 +11,12 @@ export interface IMessageOptions {
     showChangeMessage: (bool: boolean) => void
     changingMessage: string | null | undefined
 }
+
+export type TSelectedChat = {
+    id: number
+    isSelected: boolean
+}
+
+export type TSelectedChats = {
+    selectedChats: TSelectedChat[]
+}
