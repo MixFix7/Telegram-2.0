@@ -9,6 +9,7 @@ import { ChatService } from '../../../services/chat.service';
 import { IAddMessage } from '../../../types/typeService';
 import { MessageService } from '../../../services/message.service';
 import ClipMessage from './UI/ClipMessage';
+import UploadedFiles from './UploadedFiles';
 
 const SendMessage: FC<ISendMessageP> = ({socket}) => {
     const {selectChat, startNewChat} = useActions()
@@ -18,10 +19,18 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
     const { viewChat } = useTypedSelector(state => state);
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
     const [messageContent, setMessageContent] = useState<string>('')
-    const [messageFiles, setMessageFiles] = useState<FileList | null>()
+    const [uploadedFiles, setUploadedFiles] = useState<FileList | null>()
 
     const onChangeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessageContent(e.target.value)
+    }
+
+    const deleteUploadedFile = (fileName: string) => {
+        const uploadedFilesWithoutTarget = Array.from(uploadedFiles!).filter(file => file.name !== fileName)
+        const dataTransfer = new DataTransfer();
+        uploadedFilesWithoutTarget.forEach(file => dataTransfer.items.add(file));
+
+        setUploadedFiles(dataTransfer.files)
     }
 
     const submitFormSendMessage = async (e: FormEvent<HTMLFormElement>) => {
@@ -84,21 +93,31 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
     }
 
     return (
-        <form className='w-full p-4 flex items-center'
-              style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
-              onSubmit={submitFormSendMessage}
+        <div 
+            className='w-full p-4 items-center'
+            style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
         >
-            <ClipMessage 
-                setMessageFiles={(e: ChangeEvent<HTMLInputElement>) => setMessageFiles(e.target.files)} 
-            />
-            <InputMessage messageContent={messageContent} setMessageContent={onChangeInput}/>
-            <button type='submit'>
-                <IoMdSend
-                    className='text-sky-500 hover:text-sky-600'
-                    size={'30px'}
+            <form className='w-full flex'
+                  onSubmit={submitFormSendMessage}
+            >
+                <ClipMessage 
+                    setMessageFiles={(e: ChangeEvent<HTMLInputElement>) => setUploadedFiles(e.target.files)} 
                 />
-            </button>
-        </form>
+                <InputMessage messageContent={messageContent} setMessageContent={onChangeInput}/>
+                <button type='submit'>
+                    <IoMdSend
+                        className='text-sky-500 hover:text-sky-600'
+                        size={'30px'}
+                    />
+                </button>
+            </form>
+            {uploadedFiles && 
+                <UploadedFiles 
+                    uploadedFiles={uploadedFiles!}
+                    deleteUploadedFile={deleteUploadedFile}
+                />
+            }
+        </div>
     );
 }
 
