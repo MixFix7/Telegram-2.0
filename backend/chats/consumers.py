@@ -79,8 +79,9 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
                 new_message.text = message_content
             elif message_type == 'Image':
                 new_message.image = message_content
-            else:
+            elif message_type == 'File':
                 new_message.file = message_content
+
 
             new_message.save()
 

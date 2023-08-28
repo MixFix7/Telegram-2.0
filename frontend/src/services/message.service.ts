@@ -10,14 +10,22 @@ class MessageService {
     private MESSAGES_URL: string = SERVER_URL + '/api/messages/'
 
     async sendMessage(data: IAddMessage) {
+        console.log(data)
+        const formData = new FormData();
+        formData.append('chat_id', data.chat_id.toString());
+        formData.append('sender_name', data.sender_name);
+        formData.append('message_content', data.message_content!);
+        if (data.files) {
+          for (let i = 0; i < data.files.length; i++) {
+            formData.append('message_files', data.files[i]);
+          }
+        }
         const response = await axios.post<IAddMessage>(this.MESSAGES_URL + 'send-message/', 
-        { 
-            chat_id: data.chat_id,
-            sender_name: data.sender_name,
-            message_type: data.message_type,
-            message_content: data.message_content,
-        },
-        {headers: this.Authorization})
+        formData,
+        {headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${this.accessToken}`
+        }})
         return response
     }
 
@@ -34,7 +42,10 @@ class MessageService {
             message_id: id.id, 
             changes: changes
         },
-        {headers: this.Authorization})
+        {headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${this.accessToken}`
+        }})
         return response
     }
 

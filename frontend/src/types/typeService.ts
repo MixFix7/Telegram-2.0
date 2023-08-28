@@ -6,8 +6,8 @@ export interface InewChatPromise {
 export interface IAddMessage {
     sender_name: string
     chat_id: number
-    message_type: string
-    message_content: string
+    message_content: string | null
+    files: FileList | null
 }
 
 export interface IServerMessage {

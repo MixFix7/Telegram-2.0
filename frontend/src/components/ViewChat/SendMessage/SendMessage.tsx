@@ -49,8 +49,8 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                     const data: IAddMessage  = {
                         sender_name: username,
                         chat_id: response.data.id,
-                        message_type: 'Text',
-                        message_content: message
+                        message_content: messageContent,
+                        files: uploadedFiles!,
                     }
 
                     const response2 = messageService.sendMessage(data)
@@ -63,6 +63,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                         chat_id: response.data.id,
                 }))
                 setMessageContent('')
+                setUploadedFiles(null)
             })
                 })
                 
@@ -71,9 +72,10 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                 const data: IAddMessage  = {
                     sender_name: username,
                     chat_id: viewChat!.id,
-                    message_type: 'Text',
-                    message_content: message
+                    message_content: messageContent,
+                    files: uploadedFiles!,
                 }
+                console.log(data)
                 const response2 = await messageService.sendMessage(data)
                 .then(response2 => {
                     socket!.send(JSON.stringify({
@@ -83,7 +85,9 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                         recipient_name: interlocutorName,
                         chat_id: viewChat!.id,
                     }))
+                    console.log(response2.data)
                     setMessageContent('')
+                    setUploadedFiles(null)
                 })
             }
         
@@ -97,7 +101,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
             className='w-full p-4 items-center'
             style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
         >
-            <form className='w-full flex'
+            <form className='w-full flex' encType="multipart/form-data"
                   onSubmit={submitFormSendMessage}
             >
                 <ClipMessage 

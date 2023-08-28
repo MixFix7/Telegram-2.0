@@ -13,6 +13,10 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from chats.models import Chat
 
+from .func import define_file_type
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import parser_classes
+
 
 class SendMessage(APIView):
     authentication_classes = [JWTAuthentication]
@@ -22,32 +26,39 @@ class SendMessage(APIView):
         try:
             sender_username = request.data.get('sender_name')
             chat_id = request.data.get('chat_id')
-            message_type = request.data.get('message_type')
-            message_content = request.data.get('message_content') if message_type == 'Text' \
-                            else request.FILES.get('message_content')
+            content = request.data.get('message_content')
+            files = request.FILES.getlist('message_files')
 
             sender_account = User.objects.get(username=sender_username)
             chat = Chat.objects.get(id=chat_id)
 
-            new_message = Message(
-                sender=sender_account,
-                chat=chat,
-                type=message_type,
-            )
+            filed = ''
 
-            if message_type == 'Text':
-                new_message.text = message_content
-            elif message_type == 'Image':
-                new_message.image = message_content
-            else:
-                new_message.file = message_content
+            for file in files:
+                file_type = define_file_type(file.name)
+                filed = file_type
 
-            if message_type == 'File':
-                new_message.file_name = message_content.name
+                new_message = Message(
+                    sender=sender_account,
+                    chat=chat,
+                )
 
-            new_message.save()
+                if not files:
+                    new_message.type = 'Text'
+                    new_message.text = content
+                    new_message.save()
+                else:
+                    new_message.type = file_type
+                    if file_type == 'Image':
+                        new_message.image = file
+                    if file_type == 'Video' or file_type == 'File':
+                        new_message.file = file
+                        if new_message.type == 'File':
+                            new_message.file_name = file.name
+                    new_message.text = content if content else None
+                    new_message.save()
 
-            return Response({'message': 'message was sent successfully '})
+            return Response({'message': filed})
 
         except Exception as e:
             return Response({'message': str(e)})
