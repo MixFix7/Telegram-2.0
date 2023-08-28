@@ -34,14 +34,14 @@ const MessageOptions: FC<IMessageOptions> = ({message, socket, isChangeMessage, 
         }
     }
       />
-      {!isChangeMessage ? (
+      {message.type === 'Text' && !isChangeMessage ? (
         <BiPencil
           className='cursor-pointer ml-1'
           size={'15px'}
           onClick={() => showChangeMessage(true)}
         />
 
-      ) : (
+      ) : message.type === 'Text' && (
         <SaveMessageChanges 
           messageId={message.id} 
           changingMessage={changingMessage!}

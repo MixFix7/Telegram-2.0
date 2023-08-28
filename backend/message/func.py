@@ -1,6 +1,6 @@
 def define_file_type(file_name):
-    image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
-    video_extensions = ['.mp4', '.avi', '.mkv', '.mov']
+    image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.ico']
+    video_extensions = ['.mp4', '.avi', '.mkv', '.mov', '.webm']
 
     if not file_name:
         return 'Text'

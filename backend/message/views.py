@@ -34,31 +34,38 @@ class SendMessage(APIView):
 
             filed = ''
 
-            for file in files:
-                file_type = define_file_type(file.name)
-                filed = file_type
+            new_message = Message(
+                sender=sender_account,
+                chat=chat,
+            )
 
-                new_message = Message(
-                    sender=sender_account,
-                    chat=chat,
-                )
+            if not files:
+                new_message.type = 'Text'
+                new_message.text = content
+                new_message.save()
 
-                if not files:
-                    new_message.type = 'Text'
-                    new_message.text = content
-                    new_message.save()
-                else:
-                    new_message.type = file_type
+            else:
+
+                for file in files:
+                    file_type = define_file_type(file.name)
+                    filed = file_type
+
+                    new_message2 = Message(
+                        sender=sender_account,
+                        chat=chat,
+                    )
+
+                    new_message2.type = file_type
                     if file_type == 'Image':
-                        new_message.image = file
+                        new_message2.image = file
                     if file_type == 'Video' or file_type == 'File':
-                        new_message.file = file
-                        if new_message.type == 'File':
-                            new_message.file_name = file.name
-                    new_message.text = content if content else None
-                    new_message.save()
+                        new_message2.file = file
+                        if new_message2.type == 'File':
+                            new_message2.file_name = file.name
+                    new_message2.text = content if content else None
+                    new_message2.save()
 
-            return Response({'message': filed})
+            return Response({'message': 'Message was sent successfully'})
 
         except Exception as e:
             return Response({'message': str(e)})
