@@ -37,6 +37,20 @@ class MessageService {
         {headers: this.Authorization})
         return response
     }
-}
+
+    async downloadFile(filePath: string, fileName: string) {
+        const response = await axios.get(SERVER_URL + filePath, {
+            responseType: 'blob',
+        })
+
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName)
+        link.click()
+
+        window.URL.revokeObjectURL(url)
+    
+    }}
 
 export {MessageService}

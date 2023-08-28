@@ -11,8 +11,10 @@ class Message(models.Model):
     type = models.CharField(max_length=10, default='Unknown')
 
     text = models.TextField(default='', null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
-    file = models.FileField(null=True, blank=True)
+    image = models.ImageField(upload_to='images_message', null=True, blank=True)
+    file = models.FileField(upload_to='files_messages', null=True, blank=True)
+
+    file_name = models.TextField(default='', null=True, blank=True)
 
     def __str__(self):
         return f"Sender: {self.sender} to: {self.chat} {self.type}:  date: {self.dispatch_date}"

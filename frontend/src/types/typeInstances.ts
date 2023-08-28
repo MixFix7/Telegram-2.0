@@ -9,6 +9,7 @@ export interface IMessage {
     text?: string | null
     image?: string | null
     file?: string | null
+    file_name?: string | null
 }
 
 export interface IChat {

@@ -42,6 +42,9 @@ class SendMessage(APIView):
             else:
                 new_message.file = message_content
 
+            if message_type == 'File':
+                new_message.file_name = message_content.name
+
             new_message.save()
 
             return Response({'message': 'message was sent successfully '})

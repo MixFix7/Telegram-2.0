@@ -1,5 +1,4 @@
 import React, {FC} from 'react'
-import Font from 'react-font'
 import { ILastMessage } from '../../../types/typeChatsComponents'
 import { BiImage } from 'react-icons/bi'
 import {GoVideo} from 'react-icons/go'
@@ -11,7 +10,6 @@ const LastMessage: FC<ILastMessage> = ({chat, username}) => {
     
   return (
     <div className='text-gray-400 flex items-center w-full'>
-        <Font family='Rubik'>
             <div className='flex items-center'>
                 {chat.last_message?.sender?.username === username && (
                   <span className='mr-1'>You:</span>
@@ -44,11 +42,7 @@ const LastMessage: FC<ILastMessage> = ({chat, username}) => {
                       )}
                   </p>
                 </div>
-
-                <p>
-                </p>
             </div>
-        </Font>
     </div>
   )
 }

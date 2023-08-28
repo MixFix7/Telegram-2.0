@@ -1,7 +1,6 @@
 import React, {FC, useContext, useRef, useState} from 'react'
 import { IChat } from '../../../types/typeInstances'
 import Image from '../../GlobalUI/Image'
-import Font from 'react-font'
 import { AuthContext } from '../../Authorization/AuthContext'
 import { AuthContextType } from '../../Authorization/types'
 import { useActions } from '../../../hooks/useActions'
@@ -51,7 +50,6 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat}) => {
         </div>
         <div className='flex flex-col items-start justify-start w-3/4 ml-2'>
           <div className='w-full'>
-            <Font family='Rubik'>
               <div className='flex items-center w-full justify-between'>
                 <InterlocutorUsername 
                   className='font-bold text-xl'
@@ -59,7 +57,6 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat}) => {
                   interlocutor2Name={chat.interlocutor2?.username}
                 />            
               </div>
-            </Font>
           </div>
           <LastMessage chat={chat} username={username}/>
       </div>

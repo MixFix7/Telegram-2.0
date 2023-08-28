@@ -8,6 +8,7 @@ import ImageMessage from './messageTypes/ImageMessage'
 import VideoMessage from './messageTypes/VideoMessage'
 import FileMessage from './messageTypes/FileMessage'
 import { IMessageType } from '../../../types/typeMessages'
+import DownloadFileAnimation from '../SendMessage/UI/DownloadFileAnimation'
 
 const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
   const [onMouse, setOnMouse] = useState<boolean>(false)
@@ -29,10 +30,17 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
     <div 
       className='w-full flex justify-end' 
     >
+      {CurrentMessage === FileMessage 
+      && <DownloadFileAnimation 
+            isYourMessage={true}
+            filePath={message.file!}
+            fileName={message.file_name!}
+      />}
+      
       <div 
           className={`
           rounded-s-xl rounded-t-xl 
-          ${CurrentMessage === TextMessage ? 'bg-sky-700 my-2 p-3' : ''}
+          ${CurrentMessage === TextMessage || CurrentMessage === FileMessage ? 'bg-sky-700 my-2 p-3' : ''}
         `}
           style={{minWidth: '100px', maxWidth: '800px'}}
           onMouseEnter={() => setOnMouse(true)}

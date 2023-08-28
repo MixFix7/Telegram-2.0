@@ -7,6 +7,7 @@ import ImageMessage from './messageTypes/ImageMessage'
 import VideoMessage from './messageTypes/VideoMessage'
 import FileMessage from './messageTypes/FileMessage'
 import { IMessageType } from '../../../types/typeMessages'
+import DownloadFileAnimation from '../SendMessage/UI/DownloadFileAnimation'
 
 const ToYouMessage: FC<IMessageComponent> = ({message}) => {
 
@@ -21,6 +22,8 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
 
   const CurrentMessage = messageTypes[message.type + 'Message']
 
+
+
   return (
     <div className='w-full flex justify-start'>
       <div className='h-full flex flex-col justify-end mx-2'>
@@ -33,7 +36,8 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
       <div 
           className={`
           rounded-t-xl rounded-e-xl 
-          ${CurrentMessage === TextMessage ? 'my-2 p-3 bg-sky-900' : ''}
+          ${CurrentMessage === TextMessage 
+          || CurrentMessage === FileMessage ? 'my-2 p-3 bg-sky-900' : ''}
         `}
           style={{minWidth: '100px', maxWidth: '800px'}}
       >
@@ -52,6 +56,12 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
           />
         </div>
       </div>
+      {CurrentMessage === FileMessage 
+      && <DownloadFileAnimation 
+            isYourMessage={false}
+            filePath={message.file!}
+            fileName={message.file_name!}
+      />}
     </div>
   )
 }
