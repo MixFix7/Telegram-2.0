@@ -2,20 +2,39 @@ import React, {ChangeEvent, ChangeEventHandler, EventHandler, FC, useState} from
 import { IMessageComponent } from '../../../types/typeGlobalUIComponents'
 import Image from '../../GlobalUI/Image'
 import DispatchMessageDate from '../../GlobalUI/DispatchMessageDate'
-import MessageOptions from './MessageOptions'
+import MessageOptions from '../UI/MessageOptions'
+import TextMessage from './messageTypes/TextMessage'
+import ImageMessage from './messageTypes/ImageMessage'
+import VideoMessage from './messageTypes/VideoMessage'
+import FileMessage from './messageTypes/FileMessage'
+import { IMessageType } from '../../../types/typeMessages'
 
 const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
   const [onMouse, setOnMouse] = useState<boolean>(false)
   const [isChangeMessage, setIsChangeMessage] = useState<boolean>(false)
   const [changingMessage, setChangingMessage] = useState<string | null | undefined>(message.text)
 
+  const messageTypes: {
+    [key: string]: React.FC<IMessageType>;
+} = {
+    TextMessage: TextMessage,
+    ImageMessage: ImageMessage,
+    VideoMessage: VideoMessage,
+    FileMessage: FileMessage,
+}
+
+  const CurrentMessage = messageTypes[message.type + 'Message']
+
   return (
     <div 
       className='w-full flex justify-end' 
-      >
+    >
       <div 
-          className='bg-sky-700 my-2 rounded-s-xl rounded-t-xl p-3'
-          style={{minWidth: '100px', maxWidth: '400px'}}
+          className={`
+          rounded-s-xl rounded-t-xl 
+          ${CurrentMessage === TextMessage ? 'bg-sky-700 my-2 p-3' : ''}
+        `}
+          style={{minWidth: '100px', maxWidth: '800px'}}
           onMouseEnter={() => setOnMouse(true)}
           onMouseLeave={() => setOnMouse(false)}
       >
@@ -26,10 +45,9 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
             {message.sender.username}
           </span>
         </div>
+          
         {!isChangeMessage ? (
-          <pre className='whitespace-pre-wrap flex justify-end'>
-            {message.text}
-          </pre>
+          <CurrentMessage message={message}/>
         ) : (
           <textarea 
             className='bg-transparent text-right'

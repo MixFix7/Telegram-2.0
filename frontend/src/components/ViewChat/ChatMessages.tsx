@@ -2,8 +2,8 @@ import React, {useContext, useRef, useEffect, FC} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { AuthContext } from '../Authorization/AuthContext'
 import { AuthContextType } from '../Authorization/types'
-import YourMessage from './UI/YourMessage'
-import ToYouMessage from './UI/ToYouMessage'
+import YourMessage from './messages/YourMessage'
+import ToYouMessage from './messages/ToYouMessage'
 import { ISendMessageP } from '../../types/typeViewChat'
 
 const ChatMessages: FC<ISendMessageP> = ({socket}) => {

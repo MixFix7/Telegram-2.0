@@ -23,8 +23,8 @@ class SendMessage(APIView):
             sender_username = request.data.get('sender_name')
             chat_id = request.data.get('chat_id')
             message_type = request.data.get('message_type')
-            message_content = request.data.get('message_content') if message_type == 'Text' else request.FILES.get(
-                'message_content')
+            message_content = request.data.get('message_content') if message_type == 'Text' \
+                            else request.FILES.get('message_content')
 
             sender_account = User.objects.get(username=sender_username)
             chat = Chat.objects.get(id=chat_id)

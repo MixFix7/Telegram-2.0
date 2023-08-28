@@ -22,8 +22,10 @@ export const Home: FC = () => {
 
   const getChatsData = async () => {
     await updateTokens()
-    .then (() => getAllUsers())
-    getChats(user!.username)
+    .then (() => {
+      getAllUsers()
+      getChats(user!.username)
+    })
   }
 
   const getAllUsers = async () => {
