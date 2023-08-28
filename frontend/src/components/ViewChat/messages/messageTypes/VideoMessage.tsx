@@ -5,7 +5,11 @@ import { SERVER_URL } from '../../../Routing/Routing'
 const VideoMessage: FC<IMessageType> = ({message}) => {
   return (
     <div className=''>
-      <video className='w-full h-full rounded-lg' controls>
+      <video 
+        className='rounded-lg' 
+        style={{width: '560px'}}
+        controls
+      >
         <source src={SERVER_URL + message.file} />
       </video>
     </div>

@@ -8,6 +8,7 @@ import { useActions } from '../../../hooks/useActions';
 import { ChatService } from '../../../services/chat.service';
 import { IAddMessage } from '../../../types/typeService';
 import { MessageService } from '../../../services/message.service';
+import ClipMessage from './UI/ClipMessage';
 
 const SendMessage: FC<ISendMessageP> = ({socket}) => {
     const {selectChat, startNewChat} = useActions()
@@ -17,8 +18,9 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
     const { viewChat } = useTypedSelector(state => state);
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
     const [messageContent, setMessageContent] = useState<string>('')
+    const [messageFiles, setMessageFiles] = useState<FileList | null>()
 
-    const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessageContent(e.target.value)
     }
 
@@ -86,6 +88,9 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
               style={{ backgroundColor: 'rgba(30, 43, 62, 0.8)' }}
               onSubmit={submitFormSendMessage}
         >
+            <ClipMessage 
+                setMessageFiles={(e: ChangeEvent<HTMLInputElement>) => setMessageFiles(e.target.files)} 
+            />
             <InputMessage messageContent={messageContent} setMessageContent={onChangeInput}/>
             <button type='submit'>
                 <IoMdSend
