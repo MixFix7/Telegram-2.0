@@ -82,7 +82,6 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             elif message_type == 'File':
                 new_message.file = message_content
 
-
             new_message.save()
 
         except Exception as e:

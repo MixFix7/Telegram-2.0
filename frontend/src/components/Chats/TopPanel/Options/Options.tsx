@@ -69,7 +69,7 @@ const Options: FC<IOptionsComp> = ({hideOptions}) => {
   return (
     <>
       <div 
-        className='modal-background' 
+        className='modal-background justify-start' 
         onClick={handleBackgroundClick}
       >
         <div 

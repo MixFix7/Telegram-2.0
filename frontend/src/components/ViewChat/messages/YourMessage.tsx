@@ -78,7 +78,7 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
             changingMessage={changingMessage}
           />}
           <DispatchMessageDate 
-              className='text-sm text-sky-500'
+              className='text-sm text-sky-500 flex items-center whitespace-nowrap'
               dispatchDateISO={message.dispatch_date}
           />
         </div>

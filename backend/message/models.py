@@ -9,6 +9,7 @@ class Message(models.Model):
     chat = models.ForeignKey(Chat, related_name='chat_message', on_delete=models.CASCADE, null=True)
     dispatch_date = models.DateTimeField(blank=True)
     type = models.CharField(max_length=10, default='Unknown')
+    isRead = models.BooleanField(default='false', null=True, blank=True)
 
     text = models.TextField(default='', null=True, blank=True)
     image = models.ImageField(upload_to='images_message', null=True, blank=True)

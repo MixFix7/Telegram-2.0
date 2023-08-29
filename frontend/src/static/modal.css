@@ -6,8 +6,8 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0); /* Початкова прозорість 0 */
   display: flex;
-  justify-content: start;
   align-items: center;
+  z-index: 1000;
   animation: fadeInBackground 0.5s ease-in-out forwards; /* Використовуємо анімацію fadeInBackground */
 }
 
