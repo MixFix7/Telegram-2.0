@@ -20,5 +20,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['phone'] = user.profile.phone_number
 
         return token
-
-

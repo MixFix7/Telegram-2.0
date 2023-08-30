@@ -5,10 +5,13 @@ from .models import *
 
 from message.models import Message
 from message.serializers import MessageSerializer
+from authorization.models import Profile
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.layers import get_channel_layer
+
+import datetime
 
 channel_layer = get_channel_layer()
 
@@ -20,11 +23,19 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
         username = self.scope['url_route']['kwargs']['username']
         self.room_group_name = f"user_{username}"
 
+        Profile.objects.get(user__username=username)\
+            .update(is_online=True, was_online=None)
+
     async def disconnect(self, close_code):
+        username = self.scope['url_route']['kwargs']['username']
+
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
+
+        Profile.objects.get(user__username=username)\
+            .update(is_online=False, was_online=datetime.datetime.now())
 
     async def receive(self, text_data):
         try:
@@ -35,7 +46,9 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
                 await self.subscribe()
             elif command == 'chat_message':
                 await self.send_notification(
-                    data['sender_name'], data['recipient_name'], data['chat_id']
+                    data['sender_name'],
+                    data['recipient_name'],
+                    data['chat_id']
                 )
 
         except Exception as e:
@@ -46,7 +59,9 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        await self.send(text_data=json.dumps({'command': 'subscribe', 'message': 'Subscribed to room'}))
+        await self.send(text_data=json.dumps({
+            'command': 'subscribe', 'message': 'Subscribed to room'
+        }))
 
     @database_sync_to_async
     def get_chat_messages(self, chat_id):
