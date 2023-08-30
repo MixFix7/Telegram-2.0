@@ -23,19 +23,14 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
         username = self.scope['url_route']['kwargs']['username']
         self.room_group_name = f"user_{username}"
 
-        Profile.objects.get(user__username=username)\
-            .update(is_online=True, was_online=None)
+        await self.set_user_online_status(True)
 
     async def disconnect(self, close_code):
-        username = self.scope['url_route']['kwargs']['username']
-
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
-
-        Profile.objects.get(user__username=username)\
-            .update(is_online=False, was_online=datetime.datetime.now())
+        await self.set_user_online_status(False)
 
     async def receive(self, text_data):
         try:
@@ -62,6 +57,16 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'command': 'subscribe', 'message': 'Subscribed to room'
         }))
+
+    @database_sync_to_async
+    def set_user_online_status(self, is_connect):
+        username = self.scope['url_route']['kwargs']['username']
+
+        Profile.objects.filter(user__username=username)\
+            .update(
+                is_online=True if is_connect else False,
+                was_online=None if is_connect else datetime.datetime.now()
+        )
 
     @database_sync_to_async
     def get_chat_messages(self, chat_id):

@@ -90,8 +90,8 @@ class GetChatMessages(APIView):
 
 
 class GetAllUsers(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = []
+    permission_classes = []
 
     def post(self, request):
         username = request.data.get('username')

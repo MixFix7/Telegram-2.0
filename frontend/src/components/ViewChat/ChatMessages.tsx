@@ -48,7 +48,8 @@ const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
   }, [viewChat]);
 
   useEffect(() => {
-    readMessages()
+    if (viewChat?.unread_messages! > 0 )
+        readMessages()
   }, [messageRef.current])
 
   useEffect(() => {
