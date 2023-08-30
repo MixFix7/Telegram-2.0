@@ -28,11 +28,11 @@ class GetAllUserChatsAndMessages(APIView):
 
             for chat in all_chats:
                 messages = Message.objects.filter(chat=chat)
-
                 chat_json = ChatSerializer(chat).data
                 messages_json = MessageSerializer(messages, many=True).data
                 chat_json['messages'] = messages_json
                 chat_json['last_message'] = messages_json[-1] if messages_json else []
+                chat_json['unread_messages'] = chat.unread_message_count(username=username)
 
                 all_chats_with_last_message.append(chat_json)
 
@@ -86,7 +86,7 @@ class GetChatMessages(APIView):
             return Response({chat_json}, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
 
 
 class GetAllUsers(APIView):
@@ -123,7 +123,7 @@ class StartNewChat(APIView):
             return Response(new_chat_json, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
 
 
 class DeleteChat(APIView):
@@ -145,7 +145,24 @@ class DeleteChat(APIView):
             return Response({'message': 'chat was deleted successfully'})
 
         except Exception as e:
-            return Response({'message': e})
+            return Response({'message': str(e)})
+
+
+class MakeMessagesRead(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            sender_name = request.data.get('sender_name')
+            chat_id = request.data.get('chat_id')
+
+            chat = Chat.objects.get(id=chat_id)
+            chat.read_messages(username=sender_name)
+
+            return Response({'message': 'Messages was read'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'message': str(e)})
 
 
 

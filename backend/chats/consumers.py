@@ -51,12 +51,15 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_chat_messages(self, chat_id):
         chat = Chat.objects.get(id=chat_id)
+        username = self.scope['url_route']['kwargs']['username']
+
         messages = Message.objects.filter(chat=chat)
 
         chat_json = ChatSerializer(chat).data
         messages_json = MessageSerializer(messages, many=True).data
         chat_json['messages'] = messages_json
         chat_json['last_message'] = messages_json[-1]
+        chat_json['unread_messages'] = chat.unread_message_count(username=username)
 
         return chat_json
 

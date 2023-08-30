@@ -6,7 +6,11 @@ import { UserChatComponent } from './UI/UserChatComponent'
 import { useActions } from '../../hooks/useActions'
 import { TSelectedChat } from '../../types/typeViewChat'
 
-const ChatsComponent: FC = () => {
+interface IChatsComponent {
+  socket: WebSocket | null
+}
+
+const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
   const {foundedChats, foundedUsers, searchQuery} = useTypedSelector(state => state.searchChats)
   const {chats} = useTypedSelector(state => state.searchChats)
@@ -74,6 +78,7 @@ const ChatsComponent: FC = () => {
                       .find(schat => schat.id === chat.id) as
                        { id: number; isSelected: boolean; }}
                     selectCurrentChat={(chatId: number) => selectCurrentChat(chatId)}
+                    socket={socket}
                   />    
               ))} 
 

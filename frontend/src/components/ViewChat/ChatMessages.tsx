@@ -6,12 +6,18 @@ import YourMessage from './messages/YourMessage'
 import ToYouMessage from './messages/ToYouMessage'
 import { ISendMessageP } from '../../types/typeViewChat'
 import DateLabel from './UI/DateLabel'
+import { useInterlocutorName } from '../../hooks/useInterlocutorName'
+import { ChatService } from '../../services/chat.service'
 
 const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
   const { viewChat } = useTypedSelector((state) => state);
   const { user } = useContext(AuthContext) as AuthContextType;
   const messagesRef = useRef<HTMLDivElement | null>(null);
+  const messageRef = useRef<HTMLDivElement | null>(null)
   const { message } = useTypedSelector((state) => state.websocket);
+  const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
+  const chatService = new ChatService()
+  const {chatsData} = useTypedSelector(state => state.chats)
 
   const scrollChatMessagesToEnd = () => {
     if (message.command === 'update_chat') {
@@ -21,9 +27,29 @@ const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
     }
   };
 
+  
+  const readMessages = async () => {
+    const response = await chatService.readMessages(user!.username, viewChat!.id)
+    .then((response) => {
+        socket!.send(JSON.stringify({
+            command: 'chat_message', 
+            message: 'Message sent',
+            sender_name: username,
+            recipient_name: interlocutorName,
+            chat_id: viewChat!.id,
+        }))
+    })
+  }
+
   useEffect(() => {
-    if (message) scrollChatMessagesToEnd();
+    if (message) {
+      scrollChatMessagesToEnd();
+    } 
   }, [viewChat]);
+
+  useEffect(() => {
+    readMessages()
+  }, [messageRef.current])
 
   useEffect(() => {
     if (messagesRef.current) {
@@ -56,7 +82,7 @@ const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
               {message?.sender.username === user!.username ? (
                 <YourMessage key={message.id} message={message} socket={socket} />
               ) : (
-                <ToYouMessage key={message.id} message={message} />
+                <ToYouMessage key={message.id} message={message} messageRef={messageRef}/>
               )}
             </React.Fragment>
           );

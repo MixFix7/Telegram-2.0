@@ -8,4 +8,5 @@ urlpatterns = [
     path('chat-messages/', GetChatMessages.as_view()),
     path('start-new-chat/', StartNewChat.as_view()),
     path('delete-chat/', DeleteChat.as_view()),
+    path('read-messages/', MakeMessagesRead.as_view()),
 ]

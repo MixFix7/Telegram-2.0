@@ -8,23 +8,27 @@ import { TopChatLabel } from './UI/TopChatLabel'
 import { SendMessage } from './SendMessage/SendMessage'
 import { useActions } from '../../hooks/useActions'
 import { WEBSOCKET_SERVER_URL } from '../Routing/Routing'
+import { ChatService } from '../../services/chat.service'
+import { useInterlocutorName } from '../../hooks/useInterlocutorName'
 
-const ViewChat: FC = () => {
+interface IViewChat {
+  setWebsocket: (socket: WebSocket) => void
+}
+
+const ViewChat: FC<IViewChat> = ({setWebsocket}) => {
   const {user} = useContext(AuthContext) as AuthContextType
 
   const [socket, setSocket] = useState<WebSocket | null>(null)
- 
+  
   const {message, room} = useTypedSelector(state => state.websocket) 
-  const {chatsData} = useTypedSelector(state => state.chats) 
   const {viewChat} = useTypedSelector(state => state)
-
-  console.log(chatsData)
 
   const {
     updateChat, selectChat, setUrl, 
-    setRoom, setMessage, startNewChat
+    setRoom, setMessage
   } = useActions()
 
+  const chatService = new ChatService()
 
   const connectToWebsocket = async () => {
     setRoom(`user_${user!.username}`)
@@ -32,6 +36,7 @@ const ViewChat: FC = () => {
 
     const socket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`)
     setSocket(socket)
+    setWebsocket(socket)
 
     socket.onopen = () => {
       socket.send(JSON.stringify({ command: "subscribe", room: room}))

@@ -9,6 +9,7 @@ import VideoMessage from './messageTypes/VideoMessage'
 import FileMessage from './messageTypes/FileMessage'
 import { IMessageType } from '../../../types/typeMessages'
 import DownloadFileAnimation from '../SendMessage/UI/DownloadFileAnimation'
+import { BiCheckDouble } from 'react-icons/bi'
 
 const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
   const [onMouse, setOnMouse] = useState<boolean>(false)
@@ -77,10 +78,16 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
             showChangeMessage={(bool: boolean) => setIsChangeMessage(bool)}
             changingMessage={changingMessage}
           />}
+          <div className='flex items-center'>
           <DispatchMessageDate 
               className='text-sm text-sky-500 flex items-center whitespace-nowrap'
               dispatchDateISO={message.dispatch_date}
           />
+            <BiCheckDouble 
+              size={'25px'} 
+              className={`${message.isRead ? 'text-sky-400' : 'text-white'} ml-2`}
+            />
+          </div>
         </div>
       </div>
       <div className='h-full flex flex-col justify-end mx-2'>

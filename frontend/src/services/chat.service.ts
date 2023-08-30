@@ -2,7 +2,9 @@ import axios from "axios";
 
 import { IChat } from "../types/typeInstances";
 import { IUser } from "../types/typeUser";
-import { SERVER_URL } from "../components/Routing/Routing";
+import { SERVER_URL } from "../components/Routing/Routing"
+import { IServerMessage } from "../types/typeService";
+
 
 class ChatService {
     private accessToken: string = JSON.parse(localStorage.getItem('authTokens')!).access
@@ -20,6 +22,13 @@ class ChatService {
     async createNewChat(inlName1: string, inlName2: string) {
         const response = await axios.post<IChat>(this.CHATS_URL + 'start-new-chat/',
         { interlocutor1_username: inlName1, interlocutor2_username: inlName2 },
+        { headers: this.Authorization })
+        return response
+    }
+
+    async readMessages(username: string, chat_id: number) {
+        const response = await axios.post<IServerMessage>(this.CHATS_URL + 'read-messages/', 
+        {sender_name: username, chat_id: chat_id},
         { headers: this.Authorization })
         return response
     }

@@ -9,7 +9,8 @@ import FileMessage from './messageTypes/FileMessage'
 import { IMessageType } from '../../../types/typeMessages'
 import DownloadFileAnimation from '../SendMessage/UI/DownloadFileAnimation'
 
-const ToYouMessage: FC<IMessageComponent> = ({message}) => {
+
+const ToYouMessage: FC<IMessageComponent> = ({message, messageRef}) => {
 
   const messageTypes: {
     [key: string]: React.FC<IMessageType>;
@@ -22,10 +23,8 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
 
   const CurrentMessage = messageTypes[message.type + 'Message']
 
-
-
   return (
-    <div className='w-full flex justify-start'>
+    <div ref={messageRef} className='w-full flex justify-start'>
       <div className='h-full flex flex-col justify-end mx-2'>
         <Image
           className='rounded-full w-12 h-12 mb-2'
@@ -49,11 +48,12 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
           </span>
         </div>
           <CurrentMessage message={message}/>
-        <div className='w-full flex justify-start'>
+        <div className='w-full flex justify-start items-center'>
           <DispatchMessageDate 
             className='text-sm text-cyan-600'
             dispatchDateISO={message.dispatch_date}
           />
+         
         </div>
       </div>
       {CurrentMessage === FileMessage 
@@ -61,7 +61,7 @@ const ToYouMessage: FC<IMessageComponent> = ({message}) => {
             isYourMessage={false}
             filePath={message.file!}
             fileName={message.file_name!}
-      />}
+        />}
     </div>
   )
 }

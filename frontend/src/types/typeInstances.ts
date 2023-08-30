@@ -6,6 +6,7 @@ export interface IMessage {
     chat: IChat
     dispatch_date: string
     type: string
+    isRead: boolean | null
     text?: string | null
     image?: string | null
     file?: string | null
@@ -18,6 +19,7 @@ export interface IChat {
     interlocutor2: IUser
     messages: IMessage[]
     last_message?: IMessage
+    unread_messages?: number
 }
 
 
