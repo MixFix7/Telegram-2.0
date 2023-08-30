@@ -28,3 +28,7 @@ export interface IDispatchMessageDate {
     className?: string
     dispatchDateISO: string
 }
+
+export interface IOnlineStatus {
+    isOnline: boolean
+}
