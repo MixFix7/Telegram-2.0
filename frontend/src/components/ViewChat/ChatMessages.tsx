@@ -50,13 +50,10 @@ const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
   useEffect(() => {
     if (viewChat?.unread_messages! > 0 )
         readMessages()
+        if (messagesRef.current) {
+          messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
   }, [messageRef.current])
-
-  useEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-    }
-  });
 
   let currentDate = '';
 

@@ -70,7 +70,7 @@ const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
                 Messages
               </h1>}
 
-              {foundedChats?.map((chat) => (
+              {Array.from(foundedChats).sort((a, b) => b.unread_messages! - a.unread_messages!).map((chat) => (
                   <ChatContainer 
                     key={chat.id} 
                     chat={chat}

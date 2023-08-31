@@ -5,6 +5,7 @@ import { AuthContextType } from '../../Authorization/types'
 import { useInterlocutorName } from '../../../hooks/useInterlocutorName'
 import { IUser } from '../../../types/typeUser'
 import OnlineStatus from '../../GlobalUI/OnlineStatus'
+import { getNormalDate } from '../../Chats/UI/DateFunctions'
 
 const TopChatLabel = () => {
     const {viewChat} = useTypedSelector(state => state)
@@ -26,7 +27,7 @@ const TopChatLabel = () => {
           </div>
         ) : (
           <span className='text-sm text-gray-500'>
-              Was online at {interlocutor.was_online}
+              Was online at {getNormalDate(interlocutor.was_online!)}
           </span>
         )}
     </div>
