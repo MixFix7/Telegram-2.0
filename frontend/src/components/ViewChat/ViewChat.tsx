@@ -28,8 +28,6 @@ const ViewChat: FC<IViewChat> = ({setWebsocket}) => {
     setRoom, setMessage
   } = useActions()
 
-  const chatService = new ChatService()
-
   const connectToWebsocket = async () => {
     setRoom(`user_${user!.username}`)
     setUrl(`get-all-user-chats-messages/${user!.username}/`)

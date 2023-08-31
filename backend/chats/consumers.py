@@ -73,7 +73,7 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
         chat = Chat.objects.get(id=chat_id)
         username = self.scope['url_route']['kwargs']['username']
 
-        messages = Message.objects.filter(chat=chat)
+        messages = Message.objects.filter(chat=chat).order_by('id')
 
         chat_json = ChatSerializer(chat).data
         messages_json = MessageSerializer(messages, many=True).data
