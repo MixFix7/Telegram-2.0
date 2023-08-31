@@ -16,8 +16,6 @@ export const Home: FC = () => {
   const {allUsers, foundedChats} = useTypedSelector(state => state.searchChats)
   const [socket, setSocket] = useState<WebSocket | null>(null)
 
-  console.log(foundedChats)
-
   const service = new ChatService()
 
   const getChatsData = async () => {

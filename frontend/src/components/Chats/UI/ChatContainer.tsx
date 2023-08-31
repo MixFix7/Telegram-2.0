@@ -11,6 +11,7 @@ import { LastMessage } from './LastMessage'
 import { ChatService } from '../../../services/chat.service'
 import { useInterlocutorName } from '../../../hooks/useInterlocutorName'
 
+
 interface IChatProps {
   chat: IChat
   selected: {id: number, isSelected: boolean} | undefined

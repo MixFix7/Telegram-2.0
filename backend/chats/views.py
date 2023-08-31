@@ -27,7 +27,7 @@ class GetAllUserChatsAndMessages(APIView):
             all_chats = Chat.objects.filter(Q(interlocutor1__username=username) | Q(interlocutor2__username=username))
 
             for chat in all_chats:
-                messages = Message.objects.filter(chat=chat)
+                messages = Message.objects.filter(chat=chat).order_by('id')
                 chat_json = ChatSerializer(chat).data
                 messages_json = MessageSerializer(messages, many=True).data
                 chat_json['messages'] = messages_json
@@ -77,7 +77,7 @@ class GetChatMessages(APIView):
             chat_id = request.data.get('chat_id')
 
             chat = Chat.objects.get(id=chat_id)
-            messages = Message.objects.filter(chat=chat)
+            messages = Message.objects.filter(chat=chat).order_by('id')
 
             chat_json = ChatSerializer(chat).data
             messages_json = MessageSerializer(messages, many=True).data

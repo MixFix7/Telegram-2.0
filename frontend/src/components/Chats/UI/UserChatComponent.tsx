@@ -32,13 +32,17 @@ const UserChatComponent: FC<IUserChatComponent> = ({user, selectCurrentChat}) =>
         id: userData!.user_id,
         username: userData!.username,
         avatar: userData!.avatar,
-        phoneNumber: userData!.phone_number
+        phoneNumber: userData!.phone_number,
+        is_online: false,
+        was_online: null,
       },
       interlocutor2: {
         id: user.id,
         username: user.username,
         avatar: user.avatar,
-        phoneNumber: user.phoneNumber
+        phoneNumber: user.phoneNumber,
+        is_online: false,
+        was_online: null,
       },
       messages: [],
     }

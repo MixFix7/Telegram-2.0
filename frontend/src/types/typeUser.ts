@@ -5,4 +5,6 @@ export interface IUser {
     username: string
     avatar: string
     phoneNumber: E164Number
+    is_online: boolean
+    was_online: string | null
 }
