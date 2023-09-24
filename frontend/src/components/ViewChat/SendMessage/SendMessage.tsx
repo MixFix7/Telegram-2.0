@@ -43,6 +43,7 @@ const SendMessage: FC<ISendMessageP> = ({socket}) => {
                     viewChat!.interlocutor2.username,
                 )
                 .then(response => {
+                    console.log(response)
                     startNewChat(response.data)
                     selectChat(response.data)
 

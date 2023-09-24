@@ -5,6 +5,7 @@ import ChatsTopPanel from './TopPanel/ChatsTopPanel'
 import { UserChatComponent } from './UI/UserChatComponent'
 import { useActions } from '../../hooks/useActions'
 import { TSelectedChat } from '../../types/typeViewChat'
+import { compareDates } from './UI/DateFunctions'
 
 interface IChatsComponent {
   socket: WebSocket | null
@@ -39,6 +40,8 @@ const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
       return updatedChats;
     });
   };
+
+  console.log(foundedChats)
   
   
 
@@ -70,7 +73,10 @@ const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
                 Messages
               </h1>}
 
-              {Array.from(foundedChats).sort((a, b) => b.unread_messages! - a.unread_messages!).map((chat) => (
+              {Array.from(foundedChats)
+              .sort(compareDates)
+              .sort((a, b) => b.unread_messages! - a.unread_messages!)
+              .map((chat) => (
                   <ChatContainer 
                     key={chat.id} 
                     chat={chat}

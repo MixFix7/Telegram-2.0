@@ -22,7 +22,7 @@ const UserDataBlock: FC<IUserDataBlock> = ({}) => {
 
       <div className='flex mt-3 items-center'>
 
-        <span className='text-sm font-bold'>
+        <span className='text-sm font-bold whitespace-nowrap'>
           {user!.username}
         </span>
         

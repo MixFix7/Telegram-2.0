@@ -12,6 +12,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.layers import get_channel_layer
 
 import datetime
+import urllib.parse
 
 channel_layer = get_channel_layer()
 
@@ -78,7 +79,7 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
         chat_json = ChatSerializer(chat).data
         messages_json = MessageSerializer(messages, many=True).data
         chat_json['messages'] = messages_json
-        chat_json['last_message'] = messages_json[-1]
+        chat_json['last_message'] = messages_json[-1] if messages_json[-1] else None
         chat_json['unread_messages'] = chat.unread_message_count(username=username)
 
         return chat_json
@@ -140,6 +141,9 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
 
     async def send_error(self, message):
         await self.send(text_data=json.dumps({'error': message}))
+
+    async def get_username(self):
+        return urllib.parse.quote(self.scope['url_route']['kwargs']['username'])
 
     async def chat_notification(self, event):
         chat_id = event['chat_id']

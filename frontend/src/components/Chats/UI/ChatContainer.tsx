@@ -10,6 +10,7 @@ import { InterlocutorUsername } from '../../GlobalUI/InterlocutorUsername'
 import { LastMessage } from './LastMessage'
 import { ChatService } from '../../../services/chat.service'
 import { useInterlocutorName } from '../../../hooks/useInterlocutorName'
+import { getNormalDate } from './DateFunctions'
 
 
 interface IChatProps {
@@ -62,7 +63,7 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
          cursor-pointer
           items-center justify-center
           p-2
-          ${selected?.isSelected ? 'bg-sky-700' : 'hover:bg-gray-700'}
+          ${isCurrentChat ? 'bg-sky-700' : 'hover:bg-gray-700'}
         `}
         onClick={onClick}
       >
@@ -86,7 +87,7 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
           <LastMessage chat={chat} username={username}/>
       </div>
       {chat.unread_messages! > 0 && 
-        <div className=''>
+        <div className='flex flex-col'>
           <h1 className=' bg-sky-600 rounded-full py-1 px-3'>{chat.unread_messages}</h1>
         </div>     
       }

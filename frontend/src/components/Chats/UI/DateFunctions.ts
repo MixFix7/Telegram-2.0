@@ -1,3 +1,5 @@
+import { IChat, IMessage } from "../../../types/typeInstances";
+
 export const isToday = (date: string) => {
     const today = new Date()
     const dateTime: Date = new Date(date);
@@ -41,3 +43,14 @@ export const getNormalDate = (date: string) => {
 
   return `${year}.${formattedMonth}.${formattedDay} ${formattedHour}:${formattedMinute}:${formattedSecond} ${dayOfWeek}, ${monthName} ${day}`;
 };
+
+
+export const compareDates = (a: IChat, b: IChat): number => {
+  const messageA = a.last_message?.dispatch_date
+  const messageB = b.last_message?.dispatch_date
+  
+  const dateA = messageA ? new Date(messageA).getTime() : 0
+  const dateB = messageB ? new Date(messageB).getTime() : 0
+
+  return dateB - dateA
+}

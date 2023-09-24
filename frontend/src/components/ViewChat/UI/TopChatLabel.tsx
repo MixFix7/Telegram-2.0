@@ -10,6 +10,7 @@ import { getNormalDate } from '../../Chats/UI/DateFunctions'
 const TopChatLabel = () => {
     const {viewChat} = useTypedSelector(state => state)
     const [username, interlocutorName] = useInterlocutorName(viewChat!.interlocutor1.username, viewChat!.interlocutor2.username)
+    console.log(username, interlocutorName)
 
     const interlocutor: IUser = viewChat!.interlocutor1.username === interlocutorName ? viewChat?.interlocutor1! : viewChat?.interlocutor2!
 

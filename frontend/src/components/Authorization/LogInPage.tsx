@@ -16,7 +16,7 @@ const LoginPage: FC = () => {
 
   return (
     
-    <div className={`${style.container} flex items-center justify-center h-screen`}>
+    <div className={`${style.container} flex items-center justify-center text-white h-screen`}>
       <form className={style.card} onSubmit={handleFormSubmit}>
             <h1 className={style.login}>Log in </h1>
 

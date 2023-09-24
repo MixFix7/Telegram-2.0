@@ -32,7 +32,7 @@ const ViewChat: FC<IViewChat> = ({setWebsocket}) => {
     setRoom(`user_${user!.username}`)
     setUrl(`get-all-user-chats-messages/${user!.username}/`)
 
-    const socket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username}/`)
+    const socket = new WebSocket(WEBSOCKET_SERVER_URL + `get-all-user-chats-messages/${user!.username.replace(' ', 'O')}/`)
     setSocket(socket)
     setWebsocket(socket)
 

@@ -1,9 +1,9 @@
 import axios from "axios";
 
 import { IChat } from "../types/typeInstances";
-import { IUser } from "../types/typeUser";
-import { SERVER_URL } from "../components/Routing/Routing"
 import { IServerMessage } from "../types/typeService";
+import { IUser } from "../types/typeUser";
+import { SERVER_URL } from "../components/Routing/Routing";
 
 
 class ChatService {
@@ -20,6 +20,7 @@ class ChatService {
     }
     
     async createNewChat(inlName1: string, inlName2: string) {
+        console.log(inlName1, inlName2)
         const response = await axios.post<IChat>(this.CHATS_URL + 'start-new-chat/',
         { interlocutor1_username: inlName1, interlocutor2_username: inlName2 },
         { headers: this.Authorization })

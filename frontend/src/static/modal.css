@@ -37,6 +37,10 @@
   animation: fadeInFromTop 0.5s ease-in-out forwards;
 }
 
+.fade-in-background {
+  animation: fadeInBackground 0.3 ease-in-out forwards;
+}
+
 
 @keyframes fadeInBackground {
   from {
