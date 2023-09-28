@@ -1,5 +1,8 @@
 # Telegram 2.0
 
+![image](https://github.com/MixFix7/Telegram-2.0/assets/126948322/5657b4d0-fb3a-4029-9af9-0e263ed4d802)
+
+
 Telegram 2.0 is an exciting and innovative project that aims to recreate the functionality of the original Telegram platform in a web-based environment. Using modern web technologies, this project offers users a seamless and familiar Telegram experience with a number of impressive features.
 
 # Technology stack:
