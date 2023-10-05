@@ -1,7 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 import { IshowElementsInitState } from "../types";
 
 const initialState: IshowElementsInitState = {
+    viewChatMobile: false,
     showLogout: false,
     NewGroup: false,
     NewChannel: false,
