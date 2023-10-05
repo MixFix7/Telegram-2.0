@@ -12,21 +12,19 @@ const ImageMessage: FC<IMessageType> = ({message}) => {
   return (
     <>  
       <div className={`flex ${message.sender.username === user?.username ? 'justify-end': 'justify-start'}`}>
-          <img 
-              className='rounded-lg w-2/3 cursor-pointer'
-              src={SERVER_URL + message.image}
-              alt={message.type}
-              onClick={() => setIsOpen(!isOpen)}
-          />
+        <img 
+          className='rounded-lg w-2/3 cursor-pointer'
+          src={SERVER_URL + message.image}
+          alt={message.type}
+          onClick={() => setIsOpen(!isOpen)}
+        />
       </div>
 
       {isOpen && 
-
         <ImageModal 
           imgUrl={SERVER_URL + message.image}
           closeModal={() => setIsOpen(false)}
         />
-
       }
     </>
   )
