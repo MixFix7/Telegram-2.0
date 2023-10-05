@@ -17,16 +17,27 @@ interface IOptionsComp {
 }
 
 const Options: FC<IOptionsComp> = ({hideOptions}) => {
+  const [isClosing, setIsClosing] = useState<boolean>(false)
+  
   const {showLogout} = useTypedSelector(state => state.showElements)
   const {showElement} = useActions()
 
   const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
-      hideOptions();
+      hideOptionsAnim();
     }
   }
 
-  const options = [
+  const hideOptionsAnim = () => {
+    setIsClosing(true)
+
+    setTimeout(() => {
+      hideOptions()
+      setIsClosing(false)
+    }, 500)
+  }
+
+  const   options = [
     {
       id: 1,
       icon: <MdGroup size={'25px'}/>,
@@ -69,11 +80,11 @@ const Options: FC<IOptionsComp> = ({hideOptions}) => {
   return (
     <>
       <div 
-        className='modal-background justify-start' 
+        className={`modal-background justify-start ${isClosing ? 'fade-out-background' : ''}`}
         onClick={handleBackgroundClick}
       >
         <div 
-          className='modal-content h-full w-80 bg-gray-800' 
+          className={`modal-content h-full w-80 bg-gray-800 ${isClosing ? 'fade-out-modal' : ''}`} 
         >
            <UserDataBlock/>
            {showLogout && 

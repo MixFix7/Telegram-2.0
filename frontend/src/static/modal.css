@@ -38,16 +38,34 @@
 }
 
 .fade-in-background {
-  animation: fadeInBackground 0.3 ease-in-out forwards;
+  animation: fadeInBackground 0.3s ease-in-out forwards;
 }
+
+.fade-out-background {
+  animation: fadeOutBackground 0.3s ease-in-out forwards;
+}
+
+.fade-out-modal {
+  animation: fadeOutFromLeft 0.3s ease-in-out forwards;
+}
+
 
 
 @keyframes fadeInBackground {
   from {
-      background-color: rgba(0, 0, 0, 0); /* Початкова прозорість 0 */
+      background-color: rgba(0, 0, 0, 0); 
   }
   to {
-      background-color: rgba(0, 0, 0, 0.5); /* Бажана прозорість */
+      background-color: rgba(0, 0, 0, 0.5); 
+  }
+}
+
+@keyframes fadeOutBackground {
+  from {
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0); 
   }
 }
 
@@ -59,6 +77,16 @@
       transform: translateX(0);
   }
 }
+
+@keyframes fadeOutFromLeft {
+  from {
+      transform: translateX(0);
+  }
+  to {
+      transform: translateX(-100%);
+  }
+}
+
 
 @keyframes fadeInFromTop {
   from {

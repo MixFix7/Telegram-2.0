@@ -7,21 +7,19 @@ const OptionsShowButton = () => {
 
   return (
     <>
-        <div className='flex items-center justify-center mr-5'> 
-            <FaBars
-                className='text-gray-500 hover:text-gray-200 cursor-pointer'
-                size={'20px'}
-                onClick={() => setShowOptions(!showOptions)}
-            />
-        </div>  
+      <div className='flex items-center justify-center mr-5'> 
+        <FaBars
+          className='text-gray-500 hover:text-gray-200 cursor-pointer'
+          size={'20px'}
+          onClick={() => setShowOptions(!showOptions)}
+        />
+      </div>  
 
-        {showOptions && 
-
+      {showOptions && 
         <Options
-            hideOptions={() => setShowOptions(false)}
-          />
-
-        }
+          hideOptions={() => setShowOptions(false)}
+        />
+      }
     </>
   )
 }

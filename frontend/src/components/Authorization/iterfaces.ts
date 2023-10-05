@@ -28,4 +28,5 @@ export interface IUser {
     avatar: string
     isAdmin: boolean
     phone_number: E164Number
+    chat_count: number
 }

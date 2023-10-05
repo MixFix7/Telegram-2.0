@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { EventHandler, FC, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useActions } from '../../hooks/useActions'
 import { SERVER_URL, urls } from '../Routing/Routing'
