@@ -9,6 +9,7 @@ import { AuthProvider } from './components/Authorization/AuthContext';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { PrivateRoute } from './components/Routing/PrivateRoute';
+import './static/Animations.css'
 
 const App = () => {
   return (
