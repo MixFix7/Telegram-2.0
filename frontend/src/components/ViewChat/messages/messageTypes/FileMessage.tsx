@@ -6,8 +6,10 @@ import {AiOutlineFile} from 'react-icons/ai'
 const FileMessage: FC<IMessageType> = ({message}) => {
   return (
     <div className='flex items-center justify-between p-2'>
-        <AiOutlineFile size={'40px'}/>
-        <span className='text-xl'>
+      <div>
+        <AiOutlineFile className='text-2xl sm:text-4xl'/>
+      </div>
+        <span className='text-sm sm:text-xl'>
             {message.file_name}
         </span>
     </div>

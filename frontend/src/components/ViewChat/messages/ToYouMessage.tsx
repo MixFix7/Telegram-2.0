@@ -14,18 +14,18 @@ const ToYouMessage: FC<IMessageComponent> = ({message, messageRef}) => {
 
   const messageTypes: {
     [key: string]: React.FC<IMessageType>;
-} = {
-    TextMessage: TextMessage,
-    ImageMessage: ImageMessage,
-    VideoMessage: VideoMessage,
-    FileMessage: FileMessage,
-}
+  } = {
+        TextMessage: TextMessage,
+        ImageMessage: ImageMessage,
+        VideoMessage: VideoMessage,
+        FileMessage: FileMessage,
+    }
 
-  const CurrentMessage = messageTypes[message.type + 'Message']
+  const CurrentMessage = messageTypes[message.type + 'Message'] || TextMessage
 
   return (
     <div ref={messageRef} className='w-full flex justify-start'>
-      <div className='h-full flex flex-col justify-end mx-2'>
+      <div className='h-full flex-col justify-end mx-2 hidden sm:flex'>
         <Image
           className='rounded-full w-12 h-12 mb-2'
           img={message.sender.avatar}
@@ -34,13 +34,17 @@ const ToYouMessage: FC<IMessageComponent> = ({message, messageRef}) => {
       </div>
       <div 
           className={`
-          rounded-t-xl rounded-e-xl 
-          ${CurrentMessage === TextMessage 
-          || CurrentMessage === FileMessage ? 'my-2 p-3 bg-sky-900' : ''}
+          rounded-t-xl rounded-e-xl ml-4 sm:ml-0
+          ${
+            CurrentMessage === TextMessage 
+            || CurrentMessage === FileMessage 
+            ? 'my-2 p-3 bg-sky-900' 
+            : ''
+          }
         `}
           style={{minWidth: '100px', maxWidth: '800px'}}
       >
-       <div className='flex justify-start'>
+       <div className='justify-start hidden sm:flex'>
           <span 
             className='font-bold'
           >
@@ -48,7 +52,7 @@ const ToYouMessage: FC<IMessageComponent> = ({message, messageRef}) => {
           </span>
         </div>
           <CurrentMessage message={message}/>
-        <div className='w-full flex justify-start items-center'>
+        <div className='w-full flex justify-end items-center'>
           <DispatchMessageDate 
             className='text-sm text-cyan-600'
             dispatchDateISO={message.dispatch_date}

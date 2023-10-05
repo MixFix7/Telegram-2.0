@@ -58,7 +58,7 @@ const ChatMessages: FC<ISendMessageP> = ({ socket }) => {
   let currentDate = '';
 
   return (
-    <div ref={messagesRef} className={`flex flex-col overflow-y-auto h-full`}>
+    <div ref={messagesRef} className={`flex flex-col overflow-y-auto h-4/5 sm:h-full`}>
       {viewChat!.messages
         ?.slice()
         .sort((a, b) => a.id - b.id)

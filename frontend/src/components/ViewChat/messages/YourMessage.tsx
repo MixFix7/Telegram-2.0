@@ -40,14 +40,14 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
       
       <div 
           className={`
-          rounded-s-xl rounded-t-xl 
+          rounded-s-xl rounded-t-xl mr-4 sm:mr-0
           ${CurrentMessage === TextMessage || CurrentMessage === FileMessage ? 'bg-sky-700 my-2 p-3' : ''}
         `}
           style={{minWidth: '100px', maxWidth: '800px'}}
           onMouseEnter={() => setOnMouse(true)}
           onMouseLeave={() => setOnMouse(false)}
       >
-        <div className='flex justify-end'>
+        <div className='hidden sm:flex justify-end'>
           <span 
             className='font-bold'
           >
@@ -90,7 +90,7 @@ const YourMessage: FC<IMessageComponent> = ({message, socket}) => {
           </div>
         </div>
       </div>
-      <div className='h-full flex flex-col justify-end mx-2'>
+      <div className='h-full flex-col justify-end mx-2 hidden sm:flex'>
         <Image
           className='rounded-full w-12 h-12 mb-2'
           img={message.sender.avatar}

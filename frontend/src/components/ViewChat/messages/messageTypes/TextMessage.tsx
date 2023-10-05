@@ -10,7 +10,16 @@ const TextMessage: FC<IMessageType> = ({message}) => {
     const {user} = useContext(AuthContext) as AuthContextType
 
   return (
-    <pre className={`whitespace-pre-wrap flex ${message.sender.username === user!.username ? 'justify-end' : 'justify-start'}`}>
+    <pre 
+      className={`
+        whitespace-pre-wrap flex text-sm sm:text-base
+        ${
+          message.sender.username === user!.username 
+          ? 'justify-end' 
+          : 'justify-start'
+        }
+      `}
+      >
         {message.text}
     </pre>
   )

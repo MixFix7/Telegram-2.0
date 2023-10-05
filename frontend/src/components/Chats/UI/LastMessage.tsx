@@ -9,7 +9,7 @@ const LastMessage: FC<ILastMessage> = ({chat, username}) => {
     const lastMessage = chat.last_message?.text!
     
   return (
-    <div className='text-gray-400 flex items-center w-full'>
+    <div className='text-gray-400 flex text-sm sm:text-base items-center w-full'>
             <div className='flex items-center'>
                 {chat.last_message?.sender?.username === username && (
                   <span className='mr-1'>You:</span>
