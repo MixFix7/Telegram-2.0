@@ -24,7 +24,7 @@ interface IChatProps {
 const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socket}) => {
   const chatRef = useRef<HTMLDivElement | null>(null)
   const {user} = useContext(AuthContext) as AuthContextType
-  const {selectChat} = useActions()
+  const {selectChat, showElement} = useActions()
   const [username, interlocutorName] = useInterlocutorName(chat.interlocutor1.username, chat.interlocutor2.username)
   const {viewChat} = useTypedSelector(state => state)
   const isCurrentChat = chat.id === viewChat?.id
@@ -50,7 +50,8 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
   
   const onClick = async () => {
     selectChat(chat)
-    selectCurrentChat(chat.id)
+    selectCurrentChat(chat.id) 
+    showElement({key: 'viewChatMobile'})
     if (chat.unread_messages! > 0) 
       await readMessages()
   }
@@ -59,7 +60,7 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
       <div
         ref={chatRef}
         className={`
-          w-full h-20 flex 
+          w-full sm:h-20 flex 
          cursor-pointer
           items-center justify-center
           p-2
@@ -67,9 +68,9 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
         `}
         onClick={onClick}
       >
-        <div className='flex items-center justify-center w-1/4'>
+        <div className='flex items-center justify-center w-1/5 sm:w-1/4'>
             <InterlocutorAvatar 
-              className='rounded-full w-16 h-16' 
+              className='rounded-full w-14 h-14 sm:w-16 sm:h-16' 
               chat={chat} 
               username={username}
             />
@@ -78,7 +79,7 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
           <div className='w-full'>
               <div className='flex items-center w-full justify-between'>
                 <InterlocutorUsername 
-                  className='font-bold text-xl'
+                  className='font-bold text-base sm:text-xl'
                   interlocutor1Name={chat.interlocutor1?.username}
                   interlocutor2Name={chat.interlocutor2?.username}
                 />            
@@ -88,11 +89,13 @@ const ChatContainer: FC<IChatProps> = ({chat, selected, selectCurrentChat, socke
       </div>
       {chat.unread_messages! > 0 && 
         <div className='flex flex-col'>
-          <h1 className=' bg-sky-600 rounded-full py-1 px-3'>{chat.unread_messages}</h1>
+          <h1 className=' bg-sky-600 rounded-full py-1 px-3 text-sm sm:text-lg'>
+            {chat.unread_messages}
+          </h1>
         </div>     
       }
-    </div>
-  )
+    </div> 
+  )  
 }
 
 export default ChatContainer

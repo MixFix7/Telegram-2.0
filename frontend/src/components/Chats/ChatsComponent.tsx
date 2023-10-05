@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, {FC, useContext, useEffect, useState} from 'react'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import ChatContainer from './UI/ChatContainer'
 import ChatsTopPanel from './TopPanel/ChatsTopPanel'
@@ -6,17 +6,24 @@ import { UserChatComponent } from './UI/UserChatComponent'
 import { useActions } from '../../hooks/useActions'
 import { TSelectedChat } from '../../types/typeViewChat'
 import { compareDates } from './UI/DateFunctions'
+import LoadingChat from './UI/LoadingChat'
+import { AuthContext } from '../Authorization/AuthContext'
+import { AuthContextType } from '../Authorization/types'
 
 interface IChatsComponent {
   socket: WebSocket | null
 }
 
 const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
+  const [selectChats, setSelectedChats] = useState<TSelectedChat[]>([])
+
+  const {user} = useContext(AuthContext) as AuthContextType
+
   const {isLoading, error, chatsData} = useTypedSelector(state => state.chats)
   const {foundedChats, foundedUsers, searchQuery} = useTypedSelector(state => state.searchChats)
   const {chats} = useTypedSelector(state => state.searchChats)
+
   const {setChats} = useActions()
-  const [selectChats, setSelectedChats] = useState<TSelectedChat[]>([])
 
   useEffect(() => {
     setChats(chatsData)
@@ -39,7 +46,7 @@ const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
   
       return updatedChats;
     });
-  };
+};
 
   console.log(foundedChats)
   
@@ -47,13 +54,17 @@ const ChatsComponent: FC<IChatsComponent> = ({socket}) => {
 
   return (
     <div 
-      className='flex flex-col h-screen bg-gray-800 w-80 border-r-2 border-black'
+      className='flex flex-col h-screen bg-gray-800 w-full sm:w-80 xl:border-r-2 border-black'
     >
       <ChatsTopPanel/>
 
       <div className='flex flex-col overflow-y-auto'>
         {isLoading ? (
-            <div>Loading...</div>
+            <>
+              {Array.from({length: user!.chat_count}, (_, i) => (
+                <LoadingChat/>
+              ))}
+            </>
             ) : error ? (
             <h1 className='text-2xl text-red-500'>{}</h1>
             ) : chatsData && ( 

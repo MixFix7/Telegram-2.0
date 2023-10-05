@@ -46,6 +46,8 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
                     data['recipient_name'],
                     data['chat_id']
                 )
+            elif command == 'user_exit':
+                await self.set_user_online_status(False)
 
         except Exception as e:
             await self.send_error(str(e))
@@ -154,6 +156,8 @@ class GetAllUserChatsAndMessagesConsumer(AsyncWebsocketConsumer):
             'command': 'update_chat',
             'data': chat_data,
         }))
+
+
 
 
 
